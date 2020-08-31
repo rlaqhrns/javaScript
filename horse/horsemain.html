@@ -8,43 +8,67 @@
 
     <title>Document</title>
     <style>
-        place{
-            background: url(../img/bonobono.jpeg) no-repeat;
+        body{
+            background: url(../img/Stadium.jpeg) no-repeat;
+            background-size : 100% 100%;
+            height: 960px;
+            margin: 0;
+        }
+        #road_1{
+            margin-top: 230px;
+        }
+        #stadium{
+            margin-top: 180px;
         }
         div {
             margin-right: 0px;
             text-align: center;
         }
+        #start, #stop{
+            border-radius: 20px;
+            width: 100px;
+            height: 80px;
+            font-size: 15px;
+            font-weight: 400;
+        }
 
-        span {
+        .road span {
             font-size: 80px;
 
             font-weight: 400;
         }
 
         .road {
+            margin-bottom: 3px;
             margin-right: 0px;
-            width: 1500px;
+            width: 1544px;
             height: 100px;
             border: 1px solid #999999;
-            border-right: 9px solid red;
+            border-right: 7px solid red;
         }
+        
 
         .road img {
-            width: 120px;
-            height: 100px;
+            width: 100px;
+            height: 90px;
             position: absolute;
             left: 10px;
 
         }
 
         .user {
-            background-color: lightpink;
+            background-color: rgba(255,255,255,0.5);
         }
-
-        money,
-        bet {
+        
+        money span,bet span{
+            border-radius: 20px;
             text-align: center;
+            margin-left: 270px;
+            margin-top: 10px;
+            background-color: white;
+            padding: 25px;
+            font-size: 35px;
+            height: 80px;
         }
     </style>
     <script>
@@ -131,18 +155,18 @@
                         alert('배팅 금액이 유효하지 않습니다.\n다시입력해주세요.');
                     } else {
                         money -= bet;
-                        $('bet').html('<h3>배팅액 : ' + bet + '원</h3>');
+                        $('bet').html('<span id="betting">배팅액 : ' + bet + '원</span>');
                         break;
                     }
                 }
-                $('money').html('<h2>소지금 : ' + money + '원</h2>');
+                $('money').html('<span id="wallet">소지금 : ' + money + '원</span>');
                 // var $horse = $('img');
                 var cnt = 0; //도착한 말 카운트
 
                 var run = setInterval(function () { //100ms당 함수호출
                     $('.horse').each(function (index) {    //horse 클래스 each문
                         var horsePosition = horse[index].getPosition();
-                        if (horsePosition <= 1380) {
+                        if (horsePosition <= 1444) {
                             horse[index].move(); //말의 위치 + random
                             horsePosition = horse[index].getPosition();
                             $("#horse_" + (index + 1)).css({
@@ -151,7 +175,7 @@
                             //console.log(index + ': ' + horsePosition);
                         } else {
                             $("#horse_" + (index + 1)).css({
-                                left: 1380  //종료시 도착지점에 멈추기
+                                left: 1444  //종료시 도착지점에 멈추기
                             })
                             if (horse[index].getFinish() == false) { //말이 도착했는지 판단
                                 cnt++; //도착한 말 카운트
@@ -169,8 +193,8 @@
                                             $("#road_" + (i + 1) + ">span").html(horse[i].getRank() + '등').css('color', 'blue');
                                             var winnings = calc(bet, horse[i].getRank());
                                             money += winnings;
-                                            $('money').html('<h2>소지금 : ' + money + '원</h2>');
-                                            $('bet').html('<h3>당첨금 : ' + winnings + '원</h3>');
+                                            $('money').html('<span id="wallet">소지금 : ' + money + '원</span>');
+                                            $('bet').html('<span id="betting">당첨금 : ' + winnings + '원</span>');
 
                                         } else {
                                             //모든 말의 순위를 출력
@@ -208,7 +232,7 @@
 </head>
 
 <body>
-    <place>
+    <p id='stadium'>
         <div class="road" id="road_1"><span></span><img class="horse" src="../img/horse.png" alt="" id="horse_1"></div>
         <div class="road" id="road_2"><span></span><img class="horse" src="../img/horse.png" alt="" id="horse_2"></div>
         <div class="road" id="road_3"><span></span><img class="horse" src="../img/horse.png" alt="" id="horse_3"></div>
@@ -217,14 +241,13 @@
         <div class="road" id="road_6"><span></span><img class="horse" src="../img/horse.png" alt="" id="horse_6"></div>
         <div class="road" id="road_7"><span></span><img class="horse" src="../img/horse.png" alt="" id="horse_7"></div>
         <div class="road" id="road_8"><span></span><img class="horse" src="../img/horse.png" alt="" id="horse_8"></div>
-    </place>
-
-    <button id="start">시작</button>
-    <button id="stop">종료</button>
-
-
-    <money></money>
-    <bet></bet>
+    </p>
+    <point>
+        <button id="start">시작</button>
+        <button id="stop">종료</button>
+        <money></money>
+        <bet></bet>
+    </point>
 </body>
 
 </html>
