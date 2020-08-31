@@ -126,6 +126,7 @@
                 return winnings;
             }
             var money = 100000; //소지금
+            var reg = /^[0-9]+$/;
             $("button#start").click(function () { //start 클릭 이벤트
                 $road = $(".road");
                 var horse = []; //말 클래스를 담을 배열 선언
@@ -135,11 +136,14 @@
                 $("div>span").html("");
 
                 $(".user").removeClass("user");
-                while(true){
-                    var N_ = parseInt(prompt('말 선택 ','1'));
-                    if(0<N_ && N_<=TOTAL_HORSES){
-                        var N = N_;
-                        break;
+                while(true) {
+                    var horseNum = prompt('말 선택 ', '1');
+                    if (reg.test(horseNum)) {
+                        var N_ = parseInt(horseNum);
+                        if (0 < N_ && N_ <= TOTAL_HORSES) {
+                            var N = N_;
+                            break;
+                        }
                     }
                     alert("1~8번 말을 선택해주세요");
 
@@ -147,17 +151,21 @@
                 $("#road_" + N).addClass("user");
 
                 $('#start').hide('linear'); //start button hide
+                
                 while (true) {
-                    var bet = parseInt(prompt("배팅 금액", "10000"));
-                    if (money < bet) {
+                    var bet = prompt("배팅 금액", "10000");
+                    if (reg.test(bet)){
+                        bet = parseInt(bet);
+                        if (money < bet) {
 
-                        alert('소지금이 부족합니다.\n다시입력해주세요.');
-                    }else if(bet <= 0 || bet == ""){
-                        alert('배팅 금액이 유효하지 않습니다.\n다시입력해주세요.');
-                    } else {
-                        money -= bet;
-                        $('bet').html('<span id="betting">배팅액 : ' + bet + '원</span>');
-                        break;
+                            alert('소지금이 부족합니다.\n다시입력해주세요.');
+                        } else if (bet <= 0 || bet == "") {
+                            alert('배팅 금액이 유효하지 않습니다.\n다시입력해주세요.');
+                        } else {
+                            money -= bet;
+                            $('bet').html('<span id="betting">배팅액 : ' + bet + '원</span>');
+                            break;
+                        }
                     }
                 }
                 $('money').html('<span id="wallet">소지금 : ' + money + '원</span>');
