@@ -112,7 +112,15 @@
                 $("div>span").html("");
 
                 $(".user").removeClass("user");
-                var N = parseInt(prompt('말 선택 '));
+                while(true){
+                    var N_ = parseInt(prompt('말 선택 ','1'));
+                    if(0<N_ && N_<=TOTAL_HORSES){
+                        var N = N_;
+                        break;
+                    }
+                    alert("1~8번 말을 선택해주세요");
+
+                }
                 $("#road_" + N).addClass("user");
 
                 $('#start').hide('linear'); //start button hide
@@ -121,9 +129,11 @@
                     if (money < bet) {
 
                         alert('소지금이 부족합니다.\n다시입력해주세요.');
+                    }else if(bet <= 0){
+                        alert('배팅 금액이 유효하지 않습니다.\n다시입력해주세요.');
                     } else {
                         money -= bet;
-                        $('bet').html('<h3>배팅액 : ' + bet + '원</h3>')
+                        $('bet').html('<h3>배팅액 : ' + bet + '원</h3>');
                         break;
                     }
                 }
