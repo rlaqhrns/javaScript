@@ -137,15 +137,17 @@
 
                 $(".user").removeClass("user");
                 while(true) {
-                    var horseNum = prompt('말 선택 ', '1');
+                    var horseNum = prompt('1~8번 말 선택 ', '1');
                     if (reg.test(horseNum)) {
                         var N_ = parseInt(horseNum);
                         if (0 < N_ && N_ <= TOTAL_HORSES) {
                             var N = N_;
                             break;
                         }
+                    }else{
+                        alert("숫자만 입력해주세요.");
                     }
-                    alert("1~8번 말을 선택해주세요");
+                    
 
                 }
                 $("#road_" + N).addClass("user");
@@ -166,6 +168,8 @@
                             $('bet').html('<span id="betting">배팅액 : ' + bet + '원</span>');
                             break;
                         }
+                    }else{
+                        alert("숫자만 입력하세요.");
                     }
                 }
                 $('money').html('<span id="wallet">소지금 : ' + money + '원</span>');
