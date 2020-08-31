@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <title>Document</title>
+    <style>
+        div {
+            margin-right: 0px;
+        }
+
+        .road {
+            margin-right: 0px;
+            width: 1500px;
+            height: 100px;
+            border: 1px solid #999999;
+            border-right: 9px solid red;
+        }
+
+        .road img {
+            width: 120px;
+            height: 100px;
+            position: absolute;
+            left: 10px;
+
+        }
+
+        money {
+            text-align: center;
+        }
+    </style>
+    <script>
+        var TOTAL_HORSES = 8;
+
+        class horse{
+            constructor(code){
+                this.code = code;
+            }
+            move(){
+                
+            }
+        }
+        $(document).ready(function () {
+            // alert("•주의!!• \n•새로고침시 초기화 됩니다.•");
+            var money = 100000;
+            $("button#start").click(function () {
+
+                $('#start').hide('linear');
+                money -= 10000;
+                $('money').html('<h2>소지금 : ' + money + '원</h2>');
+                // var $horse = $('img');
+                var cnt = 0;
+                var x = 0;
+                var move = setInterval(function () {
+                    $('img').each(function (index) {
+                        //--------------
+
+                        var randomIndex = Math.floor(Math.random() * 20);
+                        x += randomIndex;
+                        $("#horse_" + (index + 1)).css({
+                            left: x //css 속성에 left,top 이 있다
+                        })
+                        console.log(index + ': ' + x);
+                        if (x > 1380) {
+                            cnt++;
+                            $(this).text(cnt + "등");
+                            if (cnt == TOTAL_HORSES) {
+                                clearInterval(move);
+                                $('#start').show();
+
+                            }
+                        }
+
+
+                        //-------------------
+                    })
+                }, 500)
+
+
+
+                $("#stop").click(function () {
+                    clearInterval(move);
+                })
+
+
+            })
+
+
+        })
+    </script>
+</head>
+
+<body>
+
+    <div class="road"><img src="../img/horse.png" alt="" id="horse_1"></div>
+    <div class="road"><img src="../img/horse.png" alt="" id="horse_2"></div>
+    <div class="road"><img src="../img/horse.png" alt="" id="horse_3"></div>
+    <div class="road"><img src="../img/horse.png" alt="" id="horse_4"></div>
+    <div class="road"><img src="../img/horse.png" alt="" id="horse_5"></div>
+    <div class="road"><img src="../img/horse.png" alt="" id="horse_6"></div>
+    <div class="road"><img src="../img/horse.png" alt="" id="horse_7"></div>
+    <div class="road"><img src="../img/horse.png" alt="" id="horse_8"></div>
+
+    <button id="start">시작</button>
+    <button id="stop">종료</button>
+
+
+    <money></money>
+</body>
+
+</html>

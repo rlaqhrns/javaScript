@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <title>Document</title>
+    <style>
+        div {
+            margin-right: 0px;
+            text-align: center;
+        }
+
+        span {
+            font-size: 80px;
+
+            font-weight: 400;
+        }
+
+        .road {
+            margin-right: 0px;
+            width: 1500px;
+            height: 100px;
+            border: 1px solid #999999;
+            border-right: 9px solid red;
+        }
+
+        .road img {
+            width: 120px;
+            height: 100px;
+            position: absolute;
+            left: 10px;
+
+        }
+
+        .user {
+            background-color: lightpink;
+        }
+
+        money,
+        bet {
+            text-align: center;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            var TOTAL_HORSES = 8;
+
+            class Horse {       //Horse class
+                code;           //말 코드번호
+                position = 0;   //현재 위치
+                rank;           //순위
+                finish = false; //도착했는지 안했는지 boolean
+
+                constructor(code) { //생성자
+                    this.code = code + 1; //1~8번 부여
+                }
+                getCode() {
+                    return this.code;
+                }
+                move() {
+                    var randomIndex = Math.floor(Math.random() * 20);
+                    this.position += randomIndex;
+                }
+                getPosition() {
+                    return this.position;
+                }
+                setRank(rank) {
+                    this.rank = rank;
+                }
+                getRank() {
+                    return this.rank;
+                }
+                setFinish() {
+                    this.finish = true;
+                }
+                getFinish() {
+                    return this.finish;
+                }
+
+            }
+            function calc(bet, rank) {
+                var result;
+                if (rank == 1) {
+                    result = 2.2;
+                } else if (rank == 2) {
+                    result = 2;
+                } else if (rank == 3) {
+                    result = 1.6;
+                } else if (rank == 4) {
+                    result = 1.3;
+                } else if (rank == 5) {
+                    result = 1;
+                } else {
+                    result = 0;
+                }
+                var winnings = parseInt(result * bet);
+                return winnings;
+            }
+            var money = 100000; //소지금
+            $("button#start").click(function () { //start 클릭 이벤트
+                $road = $(".road");
+                var horse = []; //말 클래스를 담을 배열 선언
+                for (var i = 0; i < TOTAL_HORSES; i++) {
+                    horse.push(new Horse(i)); // 말을 배열에 담음
+                }
+                $("div>span").html("");
+
+                $(".user").removeClass("user");
+                var N = parseInt(prompt('말 선택 '));
+                $("#road_" + N).addClass("user");
+
+                $('#start').hide('linear'); //start button hide
+                while (true) {
+                    var bet = parseInt(prompt("배팅 금액", "10000"));
+                    if (money < bet) {
+
+                        alert('소지금이 부족합니다.\n다시입력해주세요.');
+                    } else {
+                        money -= bet;
+                        $('bet').html('<h3>배팅액 : ' + bet + '원</h3>')
+                        break;
+                    }
+                }
+                $('money').html('<h2>소지금 : ' + money + '원</h2>');
+                // var $horse = $('img');
+                var cnt = 0; //도착한 말 카운트
+
+                var run = setInterval(function () { //100ms당 함수호출
+                    $('.horse').each(function (index) {    //horse 클래스 each문
+                        var horsePosition = horse[index].getPosition();
+                        if (horsePosition <= 1380) {
+                            horse[index].move(); //말의 위치 + random
+                            horsePosition = horse[index].getPosition();
+                            $("#horse_" + (index + 1)).css({
+                                left: horsePosition //이미지 위치 변경
+                            })
+                            //console.log(index + ': ' + horsePosition);
+                        } else {
+                            $("#horse_" + (index + 1)).css({
+                                left: 1380  //종료시 도착지점에 멈추기
+                            })
+                            if (horse[index].getFinish() == false) { //말이 도착했는지 판단
+                                cnt++; //도착한 말 카운트
+                                horse[index].setFinish(); //현재 말이 도착함
+                                horse[index].setRank(cnt); //현재 말의 순위 세터
+
+
+                                if (cnt == TOTAL_HORSES) { //모든 말이 들어왔는지 판단
+
+                                    clearInterval(run); // 인터버문 종료
+
+                                    for (var i = 0; i < TOTAL_HORSES; i++) {
+                                        if ($("#road_" + (i + 1)).hasClass("user")) {
+                                            //console.log(horse[i].getCode() + '번 마는 : ' + horse[i].getRank() + ' 등 <-----user');
+                                            $("#road_" + (i + 1) + ">span").html(horse[i].getRank() + '등').css('color', 'blue');
+                                            var winnings = calc(bet, horse[i].getRank());
+                                            money += winnings;
+                                            $('money').html('<h2>소지금 : ' + money + '원</h2>');
+                                            $('bet').html('<h3>당첨금 : ' + winnings + '원</h3>');
+
+                                        } else {
+                                            //모든 말의 순위를 출력
+                                            //console.log(horse[i].getCode() + '번 마는 : ' + horse[i].getRank() + ' 등');
+                                            $("#road_" + (i + 1) + ">span").html(horse[i].getRank() + '등').css('color', 'gray');
+                                        }
+                                    }
+
+
+                                    $('#start').show(); //
+
+                                }
+                            }
+                        }
+
+
+                        //-------------------
+                    })
+                }, 50)
+
+
+
+
+                $("#stop").click(function () {
+                    clearInterval(run);
+                    $('#start').show();
+                })
+
+
+            })
+
+
+        })
+    </script>
+</head>
+
+<body>
+    <place>
+        <div class="road" id="road_1"><span></span><img class="horse" src="../img/horse.png" alt="" id="horse_1"></div>
+        <div class="road" id="road_2"><span></span><img class="horse" src="../img/horse.png" alt="" id="horse_2"></div>
+        <div class="road" id="road_3"><span></span><img class="horse" src="../img/horse.png" alt="" id="horse_3"></div>
+        <div class="road" id="road_4"><span></span><img class="horse" src="../img/horse.png" alt="" id="horse_4"></div>
+        <div class="road" id="road_5"><span></span><img class="horse" src="../img/horse.png" alt="" id="horse_5"></div>
+        <div class="road" id="road_6"><span></span><img class="horse" src="../img/horse.png" alt="" id="horse_6"></div>
+        <div class="road" id="road_7"><span></span><img class="horse" src="../img/horse.png" alt="" id="horse_7"></div>
+        <div class="road" id="road_8"><span></span><img class="horse" src="../img/horse.png" alt="" id="horse_8"></div>
+    </place>
+
+    <button id="start">시작</button>
+    <button id="stop">종료</button>
+
+
+    <money></money>
+    <bet></bet>
+</body>
+
+</html>

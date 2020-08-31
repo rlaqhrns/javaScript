@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <title>Document</title>
+    <style>
+        body {
+            font-size: 13pt;
+
+        }
+
+        #panel {
+            width: 600px;
+            height: 400px;
+            border: 1px solid #999;
+
+        }
+
+        #fish {
+            position: absolute;
+            left: 50px;
+            top: 120px;
+
+        }
+
+        #nav {
+            text-align: center;
+            width: 600px;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+
+            var $fish = $("#fish");
+
+            $("#btnStart").click(function () {//해당 버튼이 눌리면 익명함수 실행
+                //값 구하기
+                var x = parseInt($("#txtX").val());//input type이 텍스트라 parseInt로 정수로 변환
+                var y = parseInt($("#txtY").val());
+                //비교
+                if ((x >= 0 && x <= 500) && (y >= 0 && y <= 500)) {
+                    //물고기 움직이기
+                    $(this).css({
+                        left: x, top: y //css 속성에 left,top 이 있다
+                    })
+                } else {
+                    alert("input이 너무 큽니다. 다시 입력해주세요.");
+                }
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <div id="panel">
+        <img src="../img/fish.png" alt="사진is 읎다!" id="fish">
+    </div>
+    <div id="nav">
+        <label>input x : </label>
+        <input id="txtX"><br>
+        <label>input y : </label>
+        <input id="txtY"><br>
+        <button id="btnStart">Start</button>
+    </div>
+</body>
+
+</html>
