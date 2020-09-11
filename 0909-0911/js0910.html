@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const log = console.log;
+        let test = function(){
+            return function square(i){
+                return i*i;
+            }
+        }
+        log(test()(3));
+        let test1 = () => (i) => i*i;
+        log(test1()(2));
+
+        let li = {
+            step : function(j){
+                return j*j;
+            }
+        }
+        log(li.step(30));
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

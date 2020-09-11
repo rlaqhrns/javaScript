@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const products = [
+            {name: '반팔티', price: 15000},
+            {name: '긴팔티', price: 20000},
+            {name: '핸드폰케이스', price: 15000},
+            {name: '후드티', price: 30000},
+            {name: '바지', price: 25000}
+        ];
+        const map = (f, item) => {
+            let array = [];
+            for(const z of item){
+                array.push(f(z.price));
+            }
+            return array;
+        }
+ 
+        let func = function(a) {
+            return a+a;
+        }
+ 
+        let result = map(func, products);
+        console.log(result);
+
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

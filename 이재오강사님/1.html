@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    const log =console.log;
+    let test = function(){
+        console.log("사랑");
+        return function square(i){
+            log(i);
+            return i*i;
+        }
+    }
+    log(test());
+    log(test()(7));
+
+    let test1 = () => (i)=> i*i;
+    log(test1()(4));
+   //이 함수를 호출해서 하나의 값으로 출력되게 해보세요 
+   //위의 코드를 람다로 변경하세요 
+    let li ={
+        step:function(j){
+            return j*j;
+        }
+    }
+
+    //iterable 프로토콜을 설명가능 
+    li.step(7);
+    </script>
+</body>
+</html>

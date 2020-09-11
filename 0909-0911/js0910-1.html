@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+    const log = console.log;
+    //커링 구글링
+    const curry = f =>
+        (a,..._) => _.length ? f(a,..._) : (..._) => f(a,..._);
+    const products = [
+      {name: '반팔티', price: 15000},
+      {name: '긴팔티', price: 20000},
+      {name: '핸드폰케이스', price: 15000},
+      {name: '후드티', price: 30000},
+      {name: '바지', price: 25000}
+    ];
+
+    const map = (f, iter) => {
+      let res =[];
+      for(const a of iter){
+        res.push(f(a));
+      }
+      return res;
+    }
+    log(map(products=>products.name,products));
+
+    const filter = curry(f, iter) => {
+      let array = [];
+      for(const a of iter) {
+        if(f(a)) {
+          array.push(a);
+        }
+      }
+      return array;
+    }
+    //spread 이용
+    log(...filter(products=>products.price>2000,products));
+
+    //reduce visualization 사이트
+    //https://blog.khanacademy.org/lets-reduce-a-gentle-introduction-to-javascripts-reduce-method/
+
+    const add = (a,b) => a+b; //두 개의 데이터를 받아서 더 한 결과를 반환하는 함수
+    const reduce = (f, acc, iter) => {
+      if(!iter) { //iter에 들어가는 파라미터가 없는 경우
+        //초기값을 만듬
+        iter = acc[Symbol.iterator] ();
+        acc = iter.next().value;
+      }
+      for(const a of iter) {
+        acc = f(acc,a);
+      }
+      return acc;
+    };
+
+
+    
+    //함수를 받고, 초기값0, iterable
+    log(reduce(add,0,[1,2,3,4,5]));
+    //위의 reduce 함수는 아래와 같이 계속 호출되고 그 결과를 다시 add함수를 전달하여 결과를 합성합니다.
+    //합성함수가 파라미터를 2개 가지고 결과를 누적함
+    log(add(add(add(add(0,1),2),3),4),5);
+    //평가(evaluation)
+    add(0,1) //함수 호출 후 실행된 결과
+    //iter에 들어가는 파라미터가 없는 경우
+    log(reduce(add,[0,1,2,3,4,5]));
+
+    console.clear();
+    log(
+      reduce(
+        add,
+        map(p=>p.price>20000, filter(p=>p.price>20000, products)) //iterable 가능한 데이터여야만 함
+      )
+    );
+
+    const go = (...args) => reduce((a,f) => f(a), args);
+    const pipe = (f,...fs) => (...as) => go(f(...as), ...fs);
+
+    const add1 = (a,b,c,d) => a+b+c+d;
+    go(
+        add(0,5),
+        a=> a+10,
+        a=> a+100,
+        a=> a+1000,
+        i=> i*20,
+        log
+    )
+
+    let f = pipe(
+        add,
+        a=> a+10,
+        a=> a+100,
+        a=> a*2,
+        
+    )
+
+    log(f(7,5));
+    log(f(3,4,5))
+
+    </script>
+
+  </body>
+</html> 

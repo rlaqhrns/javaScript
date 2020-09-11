@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const log = console.log;
+        const products = [
+            { name: '반팔티', price: 15000 },
+            { name: '긴팔티', price: 20000 },
+            { name: '핸드폰케이스', price: 15000 },
+            { name: '후드티', price: 30000 },
+            { name: '바지', price: 25000 }
+        ];
+        const map = (f, iter) => {
+            let res = [];
+            for (const a of iter) {
+                res.push(f(a));
+            }
+            return res;
+        }
+
+        const filter = (f, iter) => {
+            let res = [];
+            for (const a of iter) {
+                if (f(a)) res.push(a);
+            }
+            return res;
+        }
+        const add = (a, b) => a + b; //두개의 데이터를 받아서 더한 결과를 반환하는 함수
+        const reduce = (f, acc, iter) => {
+            if (!iter) {
+                iter = acc[Symbol.iterator]();
+                acc = iter.next().value;
+            }
+            // a =1, iter=[2,3,4,5]
+            for (const a of iter) {
+                acc = f(acc, a);
+            }
+            return acc;
+        };
+
+        console.clear();
+        let result1 = map(p => p.price, filter(p => p.price < 22000, products));
+        log(result1);
+        log(
+            reduce(
+                add,
+                result1
+            )
+        );
+        console.clear();
+        //go,pipe 공부하기
+        const go = (...args) => reduce((a, f) => f(a), args);
+        const pipe = (f, ...fs) => (...as) => go(f(...as), ...fs);
+        //f(g(k(r(4))))
+        //mul(add(sum(minus(p)))) =>함수 literal (7)
+        //go(add,mul, sum, minus)
+
+        const add1 = (a, b, c, d, f) => a + b * c + d + f;
+        go(
+            add(0, 5),
+            a => a + 10,
+            a => a + 100,
+            a => a + 1000,
+            i => i * 20,
+            log
+        )
+        const mul = a => a + 10; //7+5  +10 
+        const sum = a => a + 100, //7+5  +10 
+        const minus = a => a * 2(7 + 5 + 10 + 100) * 2
+        let f = pipe(
+            add1, // 7+5
+            mul,
+            sum,
+            minus,
+            log
+
+
+        )
+        log(f(7, 5));
+        log(f(2, 3, 4, 5, 7));
+        log(minus(sum(mul(add1(2, 3, 4, 5, 7)))))
+    </script>
+
+
+
+</body>
+
+</html>;

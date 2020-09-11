@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            font-size: 9pt;
+            font-family: "굴림";
+        }
+        div, p, ul, li{
+
+        }
+        ul.menu{
+            padding: 10px;
+            list-style: none;
+            border: 1px #000 solid;
+        }
+        ul.menu li{
+            border: 1px #eeeeee solid;
+            margin: 10px;
+        }
+        li.select{
+            background-color: #ccc;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script>
+        /*
+        미션 01 - 마지막 위치에 메뉴 아이템 추가
+        메뉴 이름을 입력한 후 추가 버튼을 클릭하면 신규 메뉴 아이템을 만든 후
+        메뉴(ul.menu)의 마지막 위치에 추가되도록 만드시오*/
+
+        //전역 변수 선언 및 초기화
+        let log = console.log;
+        let $menu = null;
+        let $menuName = null;
+        let $selectedItem = null;
+        $(document).ready(function(){
+            init();
+            initEvent();
+        })
+        function init(){
+            $menu = $("ul.menu");
+            $menuName = $("#menuName");
+
+        }
+        function initEvent(){
+            $("#add").click(function(){
+                log("click add");
+                addMenu();
+            })
+            $menu.on("click","li",function(){
+                log("click li");
+                selectItem($(this));
+            })
+        }
+
+
+        function addMenu(){
+            let menuName = $menuName.val();
+            let newMenuItem = "<li>" + menuName + "</li>";
+            $menu.append(newMenuItem);
+            log("add");
+        }
+        function selectItem($item) {
+            if($selectedItem != null){
+                $selectedItem.removeClass("select");
+                log('remove class');
+            }
+            $selectedItem = $item;
+            $selectedItem.addClass("select");
+        }
+
+    </script>
+</head>
+<body>
+    <div>
+    <input id="menuName" type="text">
+        <button id="add">추가</button>
+        <button id="update">수정</button>
+        <button id="remove">삭제</button>
+        <button id="up">Up</button>
+        <button id="down">Down</button>
+    </div>
+    <ul class="menu"></ul>
+</body>
+</html>

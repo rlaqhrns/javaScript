@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <title>Document</title>
+    <style>
+        .tab-menu {
+            list-style: none;
+            height: 80px;
+        }
+
+        .tab-menu li {
+            width: 99px;
+            height: 40px;
+            background-position-y: 0;
+            text-indent: -1000px;
+            overflow: hidden;
+            display: inline-block;
+            float: left;
+        }
+        .tab-menu li:hover {
+            background-position-y: -40px;
+        }
+        .tab-menu li.select {
+            background-position-y: -80px;
+            height: 80px;
+        }
+        .tab-menu li.menuitem1 {
+            background-image: url(../img/newbtn.bar.1.png);
+        }
+        .tab-menu li.menuitem2 {
+            background-image: url(../img/newbtn.bar.2.png);
+        }
+        .tab-menu li.menuitem3 {
+            background-image: url(../img/newbtn.bar.3.png);
+        }
+        .tab-menu li.menuitem4 {
+            background-image: url(../img/newbtn.bar.4.png);
+        }
+        .tab-menu li.menuitem5 {
+            background-image: url(../img/newbtn.bar.5.png);
+        }
+        .tab-menu li.menuitem6 {
+            background-image: url(../img/newbtn.bar.6.png);
+        }
+    </style>
+   
+    <script>
+        $(document).ready(function(){
+            $(".tab-menu li").click(function(){
+                $("#tabmenu1").children().removeClass("select");
+                $(this).addClass("select");
+            })
+        })
+    </script>
+</head>
+<body>
+    <ul class="tab-menu" id="tabmenu1">
+        <li class="menuitem1">google</li>
+        <li class="menuitem2">facebook</li>
+        <li class="menuitem3">pinterest</li>
+        <li class="menuitem4">twitter</li>
+        <li class="menuitem5">airbnb</li>
+        <li class="menuitem6">path</li>
+    </ul>
+    
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-size: 9pt;
+            font-family: "굴림";
+        }
+
+        div,
+        p,
+        ul,
+        li {}
+
+        ul.menu {
+            padding: 10px;
+            list-style: none;
+            border: 1px black solid;
+        }
+
+        ul.menu li {
+            border: 1px black solid;
+            margin: 10px;
+        }
+
+        li.select {
+            background-color: sienna;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script>
+        var $menu = null;
+        var $menuName = null;
+
+        $(document).ready(function () {
+
+
+
+            let init = function () {
+                $menu = $("ul.menu");
+
+                $menuName = $("#menuName");
+            }
+
+            let initEvent = function () {
+                $("#add").click(function () {
+                    addMenu();
+                })
+            }
+
+            let addMenu = function () {
+                let menuName = $menuName.val();
+
+                let newMenuItem = "<li>" + menuName + "</li>";
+
+                $menu.append(newMenuItem);
+
+            }
+
+            init();
+            initEvent();
+
+
+
+        })
+    </script>
+</head>
+
+<body>
+    <div>
+        <input type="text" id="menuName">
+        <button id="add">추가</button>
+        <button id="remove">삭제</button>
+        <button id="up">Up</button>
+        <button id="down">Down</button>
+    </div>
+    <ul class="menu">
+
+    </ul>
+
+</body>
+
+</html>

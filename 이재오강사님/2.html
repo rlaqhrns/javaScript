@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const log =console.log;
+        //구조분해(deconstruction)
+        let [a,b,...c] =[1,2,3,34,5,6,6];
+        log(a,b,c);//출력하면결과는
+
+        function add(a,b,...z) {
+            log(a,b,z);
+        }
+        add(1,2,3,4,5,6,7);
+
+        log(typeof c);
+        let it =c[Symbol.iterator](); //iterator생성 
+        //[Symbol.iterator] 는 키이고
+        //value는 익명 함수 
+        //자바스크립트에서 배열은 내부적으로 iterator 프로토콜로
+        //구현되어 있어서
+        //for _ of _  이런 구문을 사용가능 
+        log(it.next()); //약간 어려운 내용이지만 따라셔 쳐보세요
+        log(it.next()); //약간 어려운 내용이지만 따라셔 쳐보세요
+        log(it.next()); //약간 어려운 내용이지만 따라셔 쳐보세요
+        log(it.next()); //약간 어려운 내용이지만 따라셔 쳐보세요
+        log(it.next()); //약간 어려운 내용이지만 따라셔 쳐보세요
+        log(it.next()); //약간 어려운 내용이지만 따라셔 쳐보세요
+        log(it.next()); //약간 어려운 내용이지만 따라셔 쳐보세요
+        log(it.next()); //약간 어려운 내용이지만 따라셔 쳐보세요
+        
+        //데이터 두개만 있으면 됩니다.
+        //iterable
+        //iterator 
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

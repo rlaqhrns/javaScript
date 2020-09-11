@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const log =console.log;
+          const iterable ={ //iterable 데이터를 이렇게 쪼잔하게 만들었지만
+          //배열 내부에서는 더 복잡하게 만들어져 있겠죠
+            [Symbol.iterator]  : ()=>{
+                let step =0;
+                const iterator ={
+           
+                    next:()=>{
+                        if(step<=4){
+                            step++;
+                        }
+                        switch(step){
+                            case 1:
+                                return {value:"홍길동",done:false};
+                            case 2:
+                                return {value:"안녕" ,done:false};
+                            case 3:
+                                return {value:"바보" ,done:false};
+                            case 4:
+                                return {value:"그린컴퓨터" ,done:false};
+                            default:
+                            return {value:undefined,done:true};
+                        }
+                    }
+                };
+                return iterator;
+            }
+    };
+    for (const x of iterable) log(x); //next()호출하지 않았고
+    </script>
+  
+</body>
+</html>;

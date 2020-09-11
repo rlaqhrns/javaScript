@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const log = console.log;
+        let users = [
+            { name: "홍길동", age: 24, address: "영통", family: { brother: 23, sister: 26 } },
+            { name: "홍길동1", age: 26, address: "미금", family: { brother: 25, sister: 27 } },
+            { name: "홍길동2", age: 28, address: "정자", family: { brother: 13, sister: 36 } }
+        ]
+
+        // for(let i = 0;i<users.length;i++){
+        //     log(users[i].name);
+        //     log(users[i].age);
+        //     log(users[i].address);
+        //     log(users[i].family.brother);
+        // }
+
+        for (let a of users) {
+            log(a.name);
+            log(a.age);
+            log(a.address);
+            log(a.family.brother);
+            log(a.family.sister);
+        }
+
+        log(users.map(i => i.name));
+        log(users.map(i =>
+            i.family.sister
+        ));
+        log(users.filter(i => i.age <= 24))
+        let ageFilter = users.filter(function (user) {
+            return user.age <= 24;
+        })
+        log(ageFilter);
+
+        log('===============');
+        let filteredResult = users.filter(f => f.age <= 24);
+        log(filteredResult);
+        let resultFamily = users.map(f => f.family.sister);
+        log(resultFamily);
+
+        log(resultFamily.reduce((a, b) => a + b));
+
+        //log(resultFamily.reduce((a,b) => a+b)); //reduce 사용하면 하나로
+        //결과를 축약해서 줌
+        let sum = 0;
+        for (const a of resultFamily) sum += a;
+        log(sum);
+
+        //합성 함수(composition function)
+        //f와 g의 합성 함수
+        //f(g(x)) => x가 입력되면 g(x)의 출력이 f함수의 입력으로
+        //들어가서 최종 결과가 나온다. 
+        //f*g(x)
+        let f = (a, b) => 2 * a + b; //2개의 함수가 있음 
+        let g = (a, b) => 5 * a - b;
+        //문제) 두개의 합성함수를 구하는 프로그래밍을 작성하세요
+
+        log("ex",f(g(3,4),4));
+        
+
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
