@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        body{
+        body {
             font-size: 9pt;
             font-family: "굴림";
         }
-        div, p, ul, li{
 
-        }
-        ul.menu{
+        div,
+        p,
+        ul,
+        li {}
+
+        ul.menu {
             padding: 10px;
             list-style: none;
             border: 1px #000 solid;
         }
-        ul.menu li{
+
+        ul.menu li {
             border: 1px #eeeeee solid;
             margin: 10px;
         }
-        li.select{
+
+        li.select {
             background-color: #ccc;
         }
     </style>
@@ -37,53 +43,88 @@
         let $menu = null;
         let $menuName = null;
         let $selectedItem = null;
-        $(document).ready(function(){
+        $(document).ready(function () {
             init();
             initEvent();
         })
-        function init(){
+        function init() {
             $menu = $("ul.menu");
             $menuName = $("#menuName");
 
         }
-        function initEvent(){
-            $("#add").click(function(){
+        function initEvent() {
+            $("#add").click(function () {
                 log("click add");
                 addMenu();
             })
-            $menu.on("click","li",function(){
+            $("#update").click(function () {
+                log("click update");
+                updateMenuItem();
+            })
+            $("#remove").click(function () {
+                log("click update");
+                updateMenuItem();
+            })
+            $menu.on("click", "li", function () {
                 log("click li");
                 selectItem($(this));
             })
         }
 
 
-        function addMenu(){
+        function addMenu() {
             let menuName = $menuName.val();
             let newMenuItem = "<li>" + menuName + "</li>";
             $menu.append(newMenuItem);
             log("add");
         }
         function selectItem($item) {
-            if($selectedItem != null){
+            if ($selectedItem != null) {
                 $selectedItem.removeClass("select");
                 log('remove class');
             }
             $selectedItem = $item;
             $selectedItem.addClass("select");
         }
+        function updateMenuItem() {
+            if ($selectedItem) {
+                let menuName;
+                menuName = $menuName.val();
+                $selectedItem.html(menuName);
+            }
+            else {
+                alert("선택 메뉴가 존재하지 않습니다.");
+            }
+        }
+        function removeMenuItem(){
+            if ($selectedItem) {
+                $selectedItem.remove();
+                $selectedItem = null;
+            }
+            else {
+                alert("선택 메뉴가 존재하지 않습니다.");
+            }
+        }
 
     </script>
 </head>
+
 <body>
     <div>
-    <input id="menuName" type="text">
+        <input id="menuName" type="text">
         <button id="add">추가</button>
         <button id="update">수정</button>
         <button id="remove">삭제</button>
         <button id="up">Up</button>
         <button id="down">Down</button>
     </div>
-    <ul class="menu"></ul>
+    <ul class="menu">
+        <li>menu1</li>
+        <li>menu2</li>
+        <li>menu3</li>
+        <li>menu4</li>
+        <li>menu5</li>
+    </ul>
 </body>
+
 </html>

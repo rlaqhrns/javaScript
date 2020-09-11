@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <style media="screen">
+        body {
+            font-size: 9pt;
+            font-family: "굴림";
+        }
+
+        div,
+        p,
+        ul,
+        li {}
+
+        ul.menu {
+            padding: 10px;
+            list-style: none;
+            border: 1px #000 solid;
+        }
+
+        ul.menu li {
+            border: 1px #eeeeee solid;
+            margin: 10px;
+        }
+
+        li.select {
+            background-color: #ccc;
+        }
+    </style>
+    <script type="text/javascript">
+        // 미션 : 마지막 위치에 메뉴 아이템 추가
+        // 메뉴 이름을 입력 한 후 추가버튼을 클릭 하면
+        // 신규메뉴 아이템을 만든 후 메뉴(ul.menu)의 마지막 위치에 추가되게 만들음
+        //전역변수 선언 및 초기화
+        var $menu = null;
+        var $menuName = null;
+        var $selectedItem = null;
+        $(document).ready(function () {
+            //안의 변수도 지역변수
+            //    let a ;
+            //    addMenu();
+            init2();
+            initEvent();
+
+        })
+
+        //전역에서 사용할 init 이름을 가진 함수를 정의 구하세요
+        //  var init = function() {};
+        //  var init1 = (i) => {return i};
+        function init2() {
+            //1)전역에서 사용할 요소 초기화
+            //위에서 전역변수로 선언한 $menu에
+            //ul태그의 클래스 이름이 menu인 노드를 찾아서 그 jquery객체를
+            //저장하세요
+            $menu = $("ul.menu");
+
+            //위에서 전역변수로 선언한 $menuName에
+            //id가 menuName인 노드를 찾아서 그 jquery객체를 저장하세요
+            $menuName = $("#menuName");
+        }
+
+        //2) 이벤트 초기화 함수 정의 및 구현하세요
+        //함수이름은 initEvent이고 파라미터는 없으며
+        function initEvent() {
+            $("#add").click(function () {
+                addMenu();
+            });
+
+            $menu.click(function () { //event handler = callback
+                console.log("아야");
+                selectItem($(this));
+            })
+
+            //문제) id가 update인 것을 찾아 그것이 눌리면
+            //updateMenuItem 함수 호출
+            $("#update").click(function () {
+                updateMenuItem();
+            })
+
+            $("#remove").click(function () {
+                removeMenuItem();
+            })
+
+        }
+
+        function removeMenuItem() {
+            if ($selectedItem) {
+                $selectedItem.remove();
+                $selectedItem = null;
+            }
+            else {
+                alret("선택메뉴가 존재 하지 않습니다.");
+            }
+        }
+
+        //메뉴 항목 이름 수정하기
+        //문제) updeateMenuItem 함수 정의
+        function updateMenuItem() {
+            if ($selectedItem == true) {
+                let menuName;
+                menuName = $menuName.val();
+                $selectedItem.html(menuName);
+            }
+            else {
+                alert("선택 메뉴가 존재하지 않습니다.");
+            }
+        }
+        //$selectedItem이 참이면
+        //지역변수 menuName 선언 후 그 변수에 $menuName의 val함수 호출하고
+        //호출된 결과를 저장함
+        //그리고 $selectedMenuItem의 html 메서드 호출하여
+        //호출시 위에서 선언한 지역변수 menuName을 전달함
+        //$selectedMenuItem이 거짓이면 "선택 메뉴가 존재하지 않습니다"
+        //alert창으로 띄우세요
+
+        //기능은 id가 add인 노드를 찾아서 jquery객체로 만들고
+        //jquery 가 눌리면(click 이벤트 발생하면)
+        //익명함수를 전달하고(click 메서드(함수)의 파라미터가 익명함수)
+        //그 익명함수의 내부의 기능 구현은 addMenu 함수 호출하세요
+        //addMenu는 나중에 정의(만들것임)
+
+        //3) addMenu 정의하세요 파라미터는 없습니다.
+        function addMenu() {
+            //메뉴 추가 처리 기능
+            let menuName;
+            menuName = $menuName.val();
+            //텍스트 입력 값 구하기
+            let newMenuItem;
+            newMenuItem = "<li>" + menuName + "</li>";
+            //메뉴에 신규 메뉴 아이템 추가
+            $menu.append(newMenuItem);
+        }
+        //메뉴 추가 처리 기능
+        //텍스트 입력 값 구하기
+        //지역변수 menuName 선언 후 위에서 전역 선언한 $menuName의
+        //jquery 객체 변수에 접근하여 val메서드 호출하고
+        //호출된 결과를 위에서 지역변수로 선언한 menuName에 저장하세요
+
+
+        function selectItem($item) {
+
+
+            if ($selectedItem != null) {
+                $selectedItem.removeClass("select");
+            }
+
+            $selectedItem = $item;
+            $selectedItem.addClass("select");
+
+        }
+
+
+      //1)메뉴 선택 처리
+      //함수 이름 selectedItem이고 파라미터는 $item
+      //기능은
+      //$selectedItem을 전역 변수로 위에서 선언하고 null값 대입
+      //전역 변수에 선언된 $selectedItem가 null이 아니면
+      //$selectedItem 객체에 접근하여 removeClass 메서드 호출함
+      //호출시 파라미터로는 문자열 select 전달함
+      // => 신규 선택 메뉴 아이템 처리
+      //$selectedItem에 $item 변수의 값을 저장함
+      //$selectedItem에 접근하여 addClass 메서드 호출함
+      //호출시 파라미터로는 문자열 selct 전달함
+
+      //2)initEvent 함수 내에
+      //$menu jquery 객체를 담은 변수가 눌리는 이벤트 발생하면
+      //selectItem 함수 호출 => 호출시 this를 $로 감싸서(jquery함수 호출)
+      //jquery객체로 만든 것을 파라미터로 전달함
+
+
+    </script>
+</head>
+
+<body>
+    <div>
+        <input id="menuName" type="text" />
+        <button id="add">
+            추가
+        </button>
+        <button id="update">
+            수정
+        </button>
+        <button id="remove">
+            삭제
+        </button>
+        <button id="up">
+            UP
+        </button>
+        <button id="down">
+            Down
+        </button>
+    </div>
+    <ul class="menu">
+        <li>menu1</li>
+        <li>menu2</li>
+        <li>menu3</li>
+        <li>menu4</li>
+        <li>menu5</li>
+    </ul>
+</body>
+
+</html>

@@ -9,19 +9,22 @@
 
 <body>
     <script>
-        function outer() {
-            let i = 7;
-            function inner() {
-                console.log(i + 9);
-
-            }
-            function inner_2() {
-                console.log(i + 3);
-            }
-            return { inner_23: inner, inner_24: inner_2 };
-        }
-        outer().inner_23();
-        outer().inner_24();
+        // function outer(){
+        //     let i = 20;
+        //     return function inner(){
+        //         console.log(i+9);
+        //         return function first(z){
+        //             return i+z;
+        //         }
+        //     }
+        // }
+        
+        
+        //let outer = () => {let i=20; return inner = () =>{console.log(i+9); return first=(z)=>i+z}}; 
+        outer = (i) => () =>(z) =>i+z;
+        console.log(outer(1));
+        console.log(outer(1)());
+        console.log(outer(1)()(30));
     </script>
 </body>
 
