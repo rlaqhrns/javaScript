@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function outer() {
+            let i = 7;
+            function inner() {
+                console.log(i + 9);
+
+            }
+            function inner_2() {
+                console.log(i + 3);
+            }
+            return { inner_23: inner, inner_24: inner_2 };
+        }
+        outer().inner_23();
+        outer().inner_24();
+    </script>
+</body>
+
+</html>

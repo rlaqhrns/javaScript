@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Document</title>
+    <script>
+        const log = console.log;
+        const hummus = function(factor){
+            const ingredient = function(amount, unit, name){
+                let ingredientAmount = amount*factor;
+                if(ingredient>1){
+                    unit+="s";
+                }
+                log(`${ingredientAmount} ${unit} ${name}`);
+            }
+            ingredient(1,"cans","병아리콩");
+            ingredient(0.25,"cup","후무스");
+            ingredient(0.25,"cup","레몬 주스");
+            ingredient(1,"clove","마늘");
+            ingredient(2,"tablespoon","올리브오일");
+            ingredient(0.5,"teaspoon","cumin");
+        }
+        hummus(20);
+        hummus(0.5);
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
