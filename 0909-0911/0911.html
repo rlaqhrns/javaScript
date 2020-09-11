@@ -6,26 +6,26 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <title>Document</title>
     <script>
-        let arr1 = [];
-        let arr2 = [];
-        
+        let arrFifo = [];
+        let arrLifo = [];
+        const log = console.log;
         $(document).ready(function(){
-            $("button#in1").click(function(){
-                console.log($("input#b").val());
-                arr1.push($("input#b").val());
+            $("button#in_fifo").click(function(){
+                log($("input#b").val());
+                arrFifo.push($("input#b").val());
             })
-            $("button#in2").click(function(){
-                console.log($("input#b").val());
-                arr2.push($("input#b").val());
+            $("button#in_lifo").click(function(){
+                log($("input#b").val());
+                arrLifo.push($("input#b").val());
             })
-            $("button#fifo").click(function(){
-                var result = arr1.shift();
-                console.log(result);
+            $("button#out_fifo").click(function(){
+                var result = arrFifo.shift();
+                log(result);
                 $("input#a").val(result)
             })
-            $("button#lifo").click(function(){
-                var result = arr2.pop();
-                console.log(result);
+            $("button#out_lifo").click(function(){
+                var result = arrLifo.pop();
+                log(result);
                 $("input#a").val(result);
             })
 
@@ -35,15 +35,17 @@
 </head>
 <body>
     <div>
-        <label for="b">안녕하세요</label>
+        <label for="b">입력</label>
         <input type="text" id="b">
-        <button id="in1">FIFO입력</button>
-        <button id="in2">LIFO입력</button>
-        <button id="fifo">FIFO</button>
-        <button id="lifo">LIFO/STACK</button>
-        <hr>
+        <button id="in_fifo">FIFO입력</button>
+        <button id="in_lifo">LIFO입력</button>
+    </div>
+    <hr>
+    <div>
         <label for="a">출력</label>
         <input type="text" id="a">
+        <button id="out_fifo">FIFO</button>
+        <button id="out_lifo">LIFO/STACK</button>
     </div>
 </body>
 </html>
