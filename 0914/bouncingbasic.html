@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>콜백테스트</title>
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+        $(document).ready(function() {
+            var image = $( "img" ); // test image 의 참조 변수 얻음
+             // 마우스 움직임을 위한 함수 정의
+             //항상 listen하지 않음 - 사용자가 마우스를 이동시키면 발생  
+             var onMouseMove = function( event ){
+                 console.log("마우스를 이동할때 마다 여기가 몇번 호출될까?")
+
+               //mouse down 이벤트시 저장된 literal 객체의 key(mouseEvents)으로 가져옴 
+                var mouseEvents = image.data( "mouseEvents" );
+
+                // 배열에 마우스 이벤트 추가 
+                mouseEvents.push( event );
+            }
+   
+            var onMouseUp = function( event ){
+                $( document ).unbind( "mousemove mouseup" );
+              
+                image.css( "text-indent", 100 );//100부터 0까지 text-indent 속성을 애니메이션할수 있고 그럼으로서 애니메이션이 끝났는지의 psueod-percentage 로 그것을 사용할 수 있음 timeframe 에서의 주어진 변화에서 위치의 변화에 기반하이미지를 애니매이션 함 
+                image.animate(
+                    {
+                        textIndent: 0
+                    },
+                    {
+                        duration: 100,
+                        step: function( currentStep ,a){
+                            //console.log("현재 스텝:", currentStep,"객체:",a)
+                            
+                            },//이미지의 위치 갱신
+
+                    	easing:"swing"
+                    });
+                    var mouseEvents = image.data( "mouseEvents" );
+                    console.log("마우스를 때면 발생함" ,mouseEvents.shift().timeStamp);
+                    console.log("마우스를 때면 발생함" ,mouseEvents.shift().pageX);
+
+            };
+            // 마우스 다운 이벤트 바인딩
+            image.mousedown(
+                function( event ){
+                	console.log(event);
+                    event.preventDefault();// Prevent the default action.
+                    var position = image.position();
+                    var mouseOffset = {
+                        left: (event.pageX - position.left + 1),
+                        top: (event.pageY - position.top + 1)
+                    };
+                    //이미지를 가지고 마우스 offset 저장하여 마우스 움직임
+                    //이벤트는 마우스가 어떻게 움직이는지 알수(figure out) 있음
+                    image.data( "mouseOffset", mouseOffset );
+
+                    //마우스를 누를때마다  이벤트를 저장할 새로운 배열 생성
+                    image.data( "mouseEvents", [ event ] );
+                    $( document ).mousemove( onMouseMove );
+                    $( document ).mouseup( onMouseUp );
+                }
+            );
+        });
+    </script>
+</head>
+<body>
+
+    <img src="../img/bonobono.jpeg" class="initial" />
+
+</body>
+</html>
