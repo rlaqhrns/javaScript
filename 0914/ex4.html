@@ -13,9 +13,14 @@
                     opacity: "-=0.1",
                     left: "+=50",
                     height: "toggle",
-                }), 5000, function () {
-
-                }
+                }, {
+                    duration:50,
+                    step:function(now,fx){
+                        console.log("여기 step는 몇번 호출되나?",now,fx);
+                    }
+                }, function () {
+                    console.log("finish");
+                })
             })
 
         })
