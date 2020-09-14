@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const dir = console.dir;
+        const log = console.log;
+        function outer(a){
+            return function inner(b){
+                return a+b;
+            }
+        }
+        dir(outer(5));
+        dir(outer);
+        log(outer(5));
+        log(outer);
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
