@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="./test.js"></script>
+    <link rel="stylesheet" href="testcss.css">
+    <title>Document</title>
+    <script>
+        $(document).ready(function () {
+            initEvent();
+        })
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>TEST!!</h1>
+    </header>
+    <nav><a href="testmain.html">Home</a></nav>
+    <article>
+        <section>
+            <p>0~100까지의 숫자를 입력하세요.</p>
+            <label for="inputBox1">input 1 :</label>
+            <input id="inputBox1" name="inputBox1" type="number" min="0" max="100" value="1"><br>
+            <label for="inputBox2">input 2 :</label>
+            <input id="inputBox2" name="inputBox2" type="number" min="0" max="100" value="2"><br>
+            <label for="inputBox3">input 3 :</label>
+            <input id="inputBox3" name="inputBox3" type="number" min="0" max="100" value="3"><br>
+            <label for="inputBox4">input 4 :</label>
+            <input id="inputBox4" name="inputBox4" type="number" min="0" max="100" value="4"><br>
+        </section>
+        <section>
+            <button id="add">덧셈</button>
+            <button id="mul">곱셈</button>
+            <input id="ans1" type="text">
+        </section>
+    </article>
+    <footer>
+        <p>--그린컴퓨터 학원 --<br>작성자 :김보군</p>
+    </footer>
+</body>
+
+</html>

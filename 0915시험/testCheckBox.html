@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="./test.js"></script>
+    <link rel="stylesheet" href="testcss.css">
+    <title>Document</title>
+    <script>
+        $(document).ready(function () {
+            initEvent();
+        })
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>TEST!!</h1>
+    </header>
+    <nav><a href="testmain.html">Home</a></nav>
+    <article>
+        <section>
+            <p>음료를 체크하세요.</p>
+            <label for="checkBox1">물 : </label>
+            <input id="checkBox1" name="checkBox" type="checkbox" value="물"><br>
+            <label for="checkBox2">사이다 : </label>
+            <input id="checkBox2" name="checkBox" type="checkbox" value="사이다"><br>
+            <label for="checkBox3">콜라 : </label>
+            <input id="checkBox3" name="checkBox" type="checkbox" value="콜라"><br>
+            <label for="checkBox4">커피 : </label>
+            <input id="checkBox4" name="checkBox" type="checkbox" value="커피"><br>
+
+            <button id="order">주문한 음료</button>
+            <input id="orderAns" type="text">
+        </section>
+    </article>
+    <footer>
+        <p>--그린컴퓨터 학원 --<br>작성자 :김보군</p>
+    </footer>
+</body>
+
+</html>
