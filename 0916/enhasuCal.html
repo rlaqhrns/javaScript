@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script>
+        function Calculator(){
+
+        }
+
+        init = function(){
+            let $inputvalue = [];
+            $(".input").each(function(){
+                $inputvalue.push(parseInt($(this).val()));
+            })
+            return $inputvalue;
+        }
+
+        Calculator.prototype.initEvent = function(){
+            $("#plus").click(this.plus);
+            $("#minus").click(this.minus);
+            $("#multiply").click(this.multiply);
+            $("#divide").click(this.divide);
+        }
+
+        Calculator.prototype.plus = function(){
+            let $inputvalue = init();
+            let $outputvalue = 0;
+            for(a of $inputvalue) if(isNaN(a)==false) $outputvalue += a;
+            $("#output").val($outputvalue);
+        }
+        Calculator.prototype.minus = function(){
+            let $inputvalue = init();
+            let $outputvalue = 0;
+            for(a of $inputvalue) if(isNaN(a)==false) $outputvalue -= a;
+            $("#output").val($outputvalue);
+
+        }
+        Calculator.prototype.multiply = function(){
+            let $inputvalue = init();
+            let $outputvalue = 1;
+            for(a of $inputvalue) if(isNaN(a)==false) $outputvalue *= a;
+            $("#output").val($outputvalue);
+
+        }
+        Calculator.prototype.divide = function(){
+            let $inputvalue = [];
+            $(".input").each(function(){
+                $inputvalue.push(parseFloat($(this).val()));
+            })
+            let $outputvalue = 1;
+            for(a of $inputvalue) if(isNaN(a)==false) $outputvalue /= a;
+            $("#output").val($outputvalue);
+
+        }
+
+        $(document).ready(function(){
+            var cal1 = new Calculator();
+            cal1.initEvent();
+        })
+    </script>
+</head>
+<body>
+    <h4>Input Value</h4>
+    <input type="text" class=input> 
+    <input type="text" class=input> 
+    <input type="text" class=input> 
+    <input type="text" class=input> 
+    <h4>Output Value</h4>
+    <input type="text" id=output>
+    <button id=plus> + </button>
+    <button id=minus> - </button>
+    <button id=multiply> * </button>
+    <button id=divide> / </button>
+</body>
+</html>

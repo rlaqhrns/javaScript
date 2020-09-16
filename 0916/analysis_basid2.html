@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>콜백테스트</title>
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+        // When the DOM is ready, initialize.
+        $(document).ready(function() {
+            var image = $( "img" ); // test image 의 참조 변수 얻음
+            var onMouseMove = function( event ){ // 마우스 움직임을 위한 함수 정의=>항상 listen하지 않음 - 사용자가 클릭할때만 
+            var mouseEvents = image.data( "mouseEvents" );// 마우스 이벤트의  collection 얻음
+                mouseEvents.push( event );//현재 마우스 이벤트를 push함
+        	};
+
+             // 마우스 움직임을 위한 함수 정의
+             //항상 listen하지 않음 - 사용자가 마우스를 이동시키면 발생  
+             var onMouseMove = function( event ){
+                console.log(event);
+                //마우스 offset을 얻어옴
+                var mouseOffset = image.data( "mouseOffset" );
+                // 마우스의 위치와 마우스의 offset에 기반하여 이미지의 위치를 계산함
+                var position = {
+                    left: (event.pageX - mouseOffset.left),
+                    top: (event.pageY - mouseOffset.top)
+                };
+                //이미지가 좌 상단의 화면에 바운딩되어 있는지 확인함
+                position.left =50; //이것은 이미지의 위치를 구해서 저장해야 함
+                position.top = 50; //이것은 이미지의 위치를 구해서 저장해야 함
+                //이미지가 아래 우측의 스크린에 바운딩되어 있는지 확인함
+                var maxLeft =20; //이것은 윈도우의 경계에 도달하면 변경되어야 함
+                var maxTop=20 //이것은 윈도우의 경계에 도달하면 변경되어야 함
+                position.left = Math.min( position.left, maxLeft );
+                position.top = Math.min( position.top, maxTop );
+                // 이미지의 위치 갱신
+                image.css({
+                    left: (position.left + "px"),
+                    top: (position.top + "px")
+                });
+                // 마우스 이벤트의  collection 얻음
+                var mouseEvents = image.data( "mouseEvents" );
+
+                //마지막 마우스 이벤트가 캡쳐된 이후로 충분한 시간이 지났는지 확인함
+                //만약 그렇다면 그 값을 저장함
+                if ((event.timeStamp - mouseEvents[ mouseEvents.length - 1 ].timeStamp ) > 40){
+                    //현재 마우스 이벤트를 push함
+                    mouseEvents.push( event );
+                    // 마우스 이벤트의 갯수를 저장함
+                    //너무 많으면 가장 오래된 것부터 제거함
+                    if (mouseEvents.length > 2){
+                        // 가자 오래된 것을 제거함
+                        mouseEvents.shift();
+                    }
+                }
+            };
+
+
+            var onMouseUp = function( event ){
+                $( document ).unbind( "mousemove mouseup" );
+              
+                image.css( "text-indent", 100 );//100부터 0까지 text-indent 속성을 애니메이션할수 있고 그럼으로서 애니메이션이 끝났는지의 psueod-percentage 로 그것을 사용할 수 있음 timeframe 에서의 주어진 변화에서 위치의 변화에 기반하이미지를 애니매이션 함 
+                image.animate(
+                    {
+                        textIndent: 0
+                    },
+                    {
+                        duration: 100,
+                        step: function( currentStep ,a){
+                        	//console.log("현재 스텝:", currentStep,"객체:",a)
+                            },//이미지의 위치 갱신
+
+                    	easing:"swing"
+                    });
+
+            };
+            // 마우스 다운 이벤트 바인딩
+            image.mousedown(
+                function( event ){
+                	console.log(event);
+                    event.preventDefault();// Prevent the default action.
+                    var position = image.position();
+                    var mouseOffset = {
+                        left: (event.pageX - position.left + 1),
+                        top: (event.pageY - position.top + 1)
+                    };
+                    //이미지를 가지고 마우스 offset 저장하여 마우스 움직임
+                    //이벤트는 마우스가 어떻게 움직이는지 알수(figure out) 있음
+                    image.data( "mouseOffset", mouseOffset );
+
+                    //현재 마우스 이벤트를 저장하여,클릭이 해제 되지마자 마우스 up 이벤트에서 변화를 알수 있음
+                    image.data( "mouseEvents", [ event ] );
+                    $( document ).mousemove( onMouseMove );
+                    $( document ).mouseup( onMouseUp );
+                }
+            );
+        });
+    </script>
+</head>
+<body>
+
+    <img src="face.jpg" class="initial" />
+
+</body>
+</html>

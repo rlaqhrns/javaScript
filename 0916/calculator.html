@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcurator</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script>
+        function Calculator(){
+            
+        }
+        init = function(korea,math,eng){
+            let $inputvalue = [];
+            $(".input").each(function(index,item){
+                $inputvalue.push(parseInt($(this).val()));
+            })
+            return $inputvalue;
+        }
+        Calculator.prototype.initEvent = function(){
+            $("#plus").click(this.plus);
+            $("#minus").click(this.minus);
+            $("#multiply").click(this.multiply);
+            $("#divide").click(this.divide);
+
+            
+        }
+        Calculator.prototype.plus = function(){
+
+            let $inputvalue = init();
+            console.log(init());
+            let result = 0;
+            for(const index of $inputvalue){
+                result += 0;
+            }
+            $("#output").val(result);
+
+        }
+        Calculator.prototype.minus = (a,b,c) => a-b-c;
+        Calculator.prototype.multiply = (a,b,c) => a*b*c;
+        Calculator.prototype.divide = (a,b,c) => plus(a,b,c)/3;
+        $(document).ready(function(){
+            let student1 = new Calculator();
+            
+            
+            student1.initEvent();
+        })
+    </script>
+</head>
+<body>
+    <input type="number" class="inputBox" id="input1">
+    <input type="text" class="inputBox" id="input2">
+    <input type="text" class="inputBox" id="input3">
+    
+    <button id = "plus">+</button>
+    <button id = "minus">-</button>
+    <button id = "multiply">*</button>
+    <button id = "divide">/</button>
+    <label for="output">출력</label>
+    <input type="text" name="output" class="outputBox" id="ouput1">
+</body>
+</html>

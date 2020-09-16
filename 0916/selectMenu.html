@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title></title>
+
+	<style>
+		.tab-menu {
+			list-style: none;
+			height: 80px;
+		}
+
+		.tab-menu li {
+			width: 99px;
+			height: 40px;
+			background-position-y: 0;
+			text-indent: -1000px;
+			overflow: hidden;
+			display: inline-block;
+			float: left;
+
+		}
+
+		.tab-menu li:hover {
+			background-position-y: -40px;
+		}
+
+		.tab-menu li.select {
+			background-position-y: -80px;
+			height: 80px;
+		}
+
+		.tab-menu li.menuitem1 {
+			background-image: url(../img/newbtn.bar.1.png);
+		}
+
+		.tab-menu li.menuitem2 {
+			background-image: url(../img/newbtn.bar.2.png);
+		}
+
+		.tab-menu li.menuitem3 {
+			background-image: url(../img/newbtn.bar.3.png);
+		}
+
+		.tab-menu li.menuitem4 {
+			background-image: url(../img/newbtn.bar.4.png);
+		}
+
+		.tab-menu li.menuitem5 {
+			background-image: url(../img/newbtn.bar.5.png);
+		}
+
+		.tab-menu li.menuitem6 {
+			background-image: url(../img/newbtn.bar.6.png);
+		}
+		body{
+			background-image: url(../img/morningsun.jpg);
+			background-size: cover;
+		}
+	</style>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script>
+
+		/*
+		 예제02: 함수 단위 코딩으로 만들어진 탭메뉴를 함수 방식 클래스로 만들어 주세요.
+
+		 */
+		// 탭메뉴 관련 변수
+		// function TabMenu() {
+
+		// 	this.$tabMenu = null;
+		// 	this.$menuItems = null;
+		// 	this.$selectMenuItem = null;
+
+		// 	this.init = function (tabMenuId) {
+		// 		$tabMenu = $(tabMenuId);
+		// 		this.$menuItems = $tabMenu.find("li");
+		// 	}
+		// 	this.initEvent = function() {
+		// 		let objThis = this;
+		// 		$menuItems.on("click", function () {
+		// 			objThis.setSelectItem($(this));
+		// 		});
+		// 	}
+		// 	this.setSelectItem = function ($menuItem) {
+		// 		// 기존 선택메뉴 아이템을 비활성화 처리 하기
+		// 		if (this.$selectMenuItem) {
+		// 			this.$selectMenuItem.removeClass("select");
+		// 		}
+		// 		this.$selectMenuItem = $menuItem;
+		// 		this.$selectMenuItem.addClass("select");
+		// 	}
+
+		// }
+		function TabMenu() {
+
+			this.$tabMenu = null;
+			this.$menuItems = null;
+			this.$selectMenuItem = null;
+
+
+		}
+		TabMenu.prototype.init = function (id, tag) {
+			this.$tabMenu = $(id);
+			this.$menuItems = this.$tabMenu.find(tag);
+		}
+		TabMenu.prototype.initEvent = function () {//메서드로 변경
+			var objThis = this;
+			this.$menuItems.on("click", function (event) {
+				objThis.setSelectItem($(this));
+			});
+		}
+
+		TabMenu.prototype.setSelectItem = function ($menuItem) {
+			// 기존 선택메뉴 아이템을 비활성화 처리 하기
+			if (this.$selectMenuItem) {
+				this.$selectMenuItem.removeClass("select");
+			}
+
+			// 신규 아이템 활성화 처리 하기
+			this.$selectMenuItem = $menuItem;
+			this.$selectMenuItem.addClass("select");
+		}
+
+		function clock(){
+			let js_clock = document.querySelector(".js-clock");
+			let title = document.querySelector(".js-title");
+			let date = new Date();
+			let hours = date.getHours();
+			let minutes = date.getMinutes();
+			let seconds = date.getSeconds();
+			let timeMag = `${hours<10 ? `0${hours}`: hours }: ${minutes<10 ? `0${minutes}` : minutes } : ${seconds < 10 ? `0${seconds}` : seconds}`;
+			title.innerHTML = timeMag;
+			
+
+		}
+
+
+
+		$(document).ready(function () {
+
+			let tapMenu1 = new TabMenu();
+			tapMenu1.init("#tabMenu1","li");
+			tapMenu1.initEvent();
+			let tapMenu2 = new TabMenu();
+			tapMenu2.init("#tabMenu2","li");
+			tapMenu2.initEvent();
+			setInterval(clock,1000);
+		});
+
+
+
+	</script>
+</head>
+
+<body>
+	<p>첫 번째 탭메뉴</p>
+	<ul class="tab-menu" id="tabMenu1">
+		<li class="menuitem1">google</li>
+		<li class="menuitem2">facebook</li>
+		<li class="menuitem3">pinterest</li>
+		<li class="menuitem4">twitter</li>
+		<li class="menuitem5">airbnb</li>
+		<li class="menuitem6">path</li>
+	</ul>
+	<p>두 번째 탭메뉴</p>
+	<ul class="tab-menu" id="tabMenu2">
+		<li class="menuitem1">google</li>
+		<li class="menuitem2">facebook</li>
+		<li class="menuitem3">pinterest</li>
+		<li class="menuitem4">twitter</li>
+		<li class="menuitem5">airbnb</li>
+		<li class="menuitem6">path</li>
+	</ul>
+	<div class="js-clock">
+		<h1 class="js-title"></h1>
+	</div>
+
+
+</body>
+
+</html>
