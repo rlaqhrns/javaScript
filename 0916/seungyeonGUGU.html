@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>구구단 미션</title>
+
+        <style>
+         #output {
+            border: 1px solid #000;
+            width: 400px;
+            height: 400px;
+            font-size: 11pt;
+         }
+        </style>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+        <script>
+        /*
+         미션01-99단 출력을 클래스로 만들기
+         구구단 중 3단, 6단, 9단을 전문으로 출력하는 메서드를 가진 클래스를 다음 요구사항에 맞게 만들어주세요.
+
+         요구사항:
+         1. 3단출력, 6단출력, 9단출력 버튼이 눌리면 해당 구구단이 출력될 수 있게 해당 메서드를 호출해 주세요.
+         2. 지우기 버튼을 누르면 출력창의 정보를 모두 지워주세요.
+         3. prototype 방식 클래스로 만들어 주세요.
+
+         */
+        
+            function Gugudan(){
+                var arr;
+                var p;
+            }
+
+            Gugudan.prototype.init = function(){
+                $("#output").html("여기에서 선택한 구구단이 출력됩니다.");
+                this.arr = [];
+                this.p = "";
+            }
+
+            Gugudan.prototype.initEvent = function(){
+                $("#3dan").click(this.three)
+                $("#6dan").click(this.six)
+                $("#9dan").click(this.nine)
+                $("#clear").click(this.init)
+            }
+
+            Gugudan.prototype.three = function(){
+                console.log(this);
+            }
+
+            Gugudan.prototype.six = function(){
+                let obj = this;
+                obj.all(6);
+            }
+
+            Gugudan.prototype.nine = function(){
+                let obj = this;
+                obj.all(9);
+            }
+
+            Gugudan.prototype.all = function(num){
+                this.p = "";
+                this.arr = [];
+                var num = num;
+                for(var i=1; i<10; i++) this.arr.push(i + "x " + num + " = " + i*num);
+                for(a of this.arr) this.p += a + "<br>"
+                print(this.p);
+            }
+
+            print = function(t){
+                $("#output").html(t);
+            }
+
+        
+        $(document).ready(function() {
+            let gugu = new Gugudan();
+            gugu.init();
+            gugu.initEvent();
+            
+        });
+
+        </script>
+    </head>
+
+    <body>
+        
+<div>
+    <button id="3dan">
+        3단출력
+    </button>
+    <button id="6dan">
+        6단출력
+    </button>
+    <button id="9dan">
+        9단출력
+    </button>
+    <button id="clear">
+        지우기
+    </button>
+</div>
+<div id="output">
+    여기에서 선택한 구구단이 출력됩니다.
+</div>
+    </body>
+</html>

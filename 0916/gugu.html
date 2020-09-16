@@ -1,117 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-   
-<!DOCTYPE HTML>
-<html>
+
+    <!DOCTYPE HTML>
+    <html>
+
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>구구단 미션</title>
 
         <style>
-			#output {
-				border: 1px solid #000;
-				width: 400px;
-				height: 400px;
-				font-size: 11pt;
-			}
+            #output {
+                border: 1px solid #000;
+                width: 400px;
+                height: 400px;
+                font-size: 11pt;
+            }
         </style>
 
         <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
         <script>
-        /*
-         미션01-99단 출력을 클래스로 만들기
-         구구단 중 3단, 6단, 9단을 전문으로 출력하는 메서드를 가진 클래스를 다음 요구사항에 맞게 만들어주세요.
-
-         요구사항:
-         1. 3단출력, 6단출력, 9단출력 버튼이 눌리면 해당 구구단이 출력될 수 있게 해당 메서드를 호출해 주세요.
-         2. 지우기 버튼을 누르면 출력창의 정보를 모두 지워주세요.
-         3. prototype 방식 클래스로 만들어 주세요.
-
-         */
-        function Gugudan(){
-
-        }
-        Gugudan.prototype.dan3 = function(){
-            let index = 3;
-           let result = "";
-            let $output = $("#output");
-            for(let i = 1;i<=9;i++){
-                result = index *i;
-                $output.append(`${index} X ${i} = ${result}<br>`);
             
+            function Gugudan() {
+
+            }
+            Gugudan.prototype.calculator = function (index) {
+                // let index = 3;
+                let result = "";
+                let $output = $("#output");
+                for (let i = 1; i <= 9; i++) {
+                    result = index * i;
+                    $output.append(`${index} X ${i} = ${result}<br>`);
+
+                }
+
+            }
+           
+            Gugudan.prototype.clear = function () {
+                let $output = $("#output");
+                $output.empty();
+            }
+            Gugudan.prototype.callback = function(){
+
+            }
+            Gugudan.prototype.initEvent = function () {
+                let obj = this;
+                $("#3dan").click(function(){
+                    obj.calculator(3);
+                })
+                $("#6dan").click(function(){
+                    obj.calculator(6);
+                })
+                $("#9dan").click(function(){
+                    obj.calculator(9);
+                })
+                $("#clear").click(this.clear);
             }
 
-        }
-        Gugudan.prototype.dan6 = function(){
-            let index = 6;
-           let result = "";
-            let $output = $("#output");
-            for(let i = 1;i<=9;i++){
-                result = index *i;
-                $output.append(`${index} X ${i} = ${result}<br>`);
-            }
-        }
-        Gugudan.prototype.dan9 = function(){
-            let index = 9;
-           let result = "";
-            let $output = $("#output");
-            for(let i = 1;i<=9;i++){
-                result = index *i;
-                $output.append(`${index} X ${i} = ${result}<br>`);
-            
-            }
-        }
-        Gugudan.prototype.clear = function(){
-            let $output = $("#output");
-            $output.empty();
-        }
-        Gugudan.prototype.initEvent=function(){
-            $("#3dan").click(this.dan3);
-            $("#6dan").click(this.dan6);
-            $("#9dan").click(this.dan9);
-
-            $("#clear").click(this.clear);
-        }
 
 
-        
-        $(document).ready(function() {
-            let me1 = new Gugudan();
-            me1.initEvent();
-        });
+            $(document).ready(function () {
+                let me1 = new Gugudan();
+                me1.initEvent();
+            });
 
         </script>
     </head>
 
-    <body>
-        
-<div>
-    <button id="3dan">
-        3단출력
-    </button>
-    <button id="6dan">
-        6단출력
-    </button>
-    <button id="9dan">
-        9단출력
-    </button>
-    <button id="clear">
-        지우기
-    </button>
-</div>
-<div id="output">
-    <!-- 여기에서 선택한 구구단이 출력됩니다. -->
-</div>
-    </body>
+<body>
+
+    <div>
+        <button id="3dan">
+            3단출력
+        </button>
+        <button id="6dan">
+            6단출력
+        </button>
+        <button id="9dan">
+            9단출력
+        </button>
+        <button id="clear">
+            지우기
+        </button>
+    </div>
+    <div id="output">
+        <!-- 여기에서 선택한 구구단이 출력됩니다. -->
+    </div>
+</body>
+
 </html>
 
 </head>
+
 <body>
-    
+
 </body>
+
 </html>
