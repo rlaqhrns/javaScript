@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const forEach = (arr,fn)=>{
+            for(let i = 0 ; i<arr.length;i++){
+                fn(arr[i]);
+            }
+        }
+        forEach([1,2,3],(data) => {
+            console.log(2*data);
+            // console.log(data);
+        })
+
+        // [1,2,3,4,5].forEach(i=>console.log("2배값",2*i));
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

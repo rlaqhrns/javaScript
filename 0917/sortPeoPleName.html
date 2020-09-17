@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const log = console.log;
+        const forEach = (arr, fn) => {
+            for (let i = 0; i < arr.length; i++) {
+                fn(arr[i]);
+            }
+        }
+        const forEachObject = (obj, fn) => {
+            for (const property in obj) {
+                if (obj.hasOwnProperty(property)) {
+                    //파라미터(인자)로 키와 값으로 호출되는 함수
+                    fn(property, obj[property]);
+                }
+            }
+        }
+
+        const unless = (predicate, fn) => {
+            if (!predicate) {
+                fn();
+            }
+        }
+
+        const times = (times, fn) => {
+            for (let i = 0; i < times; i++) {
+                fn(i);
+            }
+        }
+
+        const every = (arr,fn) =>{
+            let result = true;
+            for(const value of arr){
+                result = result && fn(value);
+            }
+            return result;
+        }
+        
+        const some = (arr,fn) =>{
+            let result = false;
+            for(const value of arr){
+                result = result || fn(value);
+
+            }
+            return result;
+        }
+
+        console.log(some([9,5,9,NaN],isNaN));
+        const sortBy = (property) => {
+            return (a,b) => {
+                var result = (a[property] < b[property]) ? -1:
+                (a[property]>b[property])? 1:0;
+                return result;
+            }
+        }
+        let fruit = ["cherries", "apple", "bananas"];
+        log(fruit.sort());
+
+        var people = [
+            {firstname: "kim", lastname : "zo"},
+            {firstname: "park", lastname : "jo"},
+            {firstname: "lee", lastname : "ku"},
+            {firstname: "son", lastname : "hu"}
+        ];
+
+        people.sort((a,b) => {
+            return (a.firstname < b.firstname) ? -1 :
+            (a.firstname> b.firstname)? 1 : 0
+        });
+        people.sort((a,b) => {
+            return (a.lastname < b.lastname) ? -1 :
+            (a.lastname> b.lastname)? 1 : 0
+        });
+
+        log(people.sort(sortBy("firstname")));
+        log(people.sort(sortBy("lastname")));
+
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

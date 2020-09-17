@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const forEach = (arr,fn)=>{
+            for(let i = 0 ; i<arr.length;i++){
+                fn(arr[i]);
+            }
+        }
+        const forEachObject = (obj, fn)=>{
+            for(const property in obj){
+                if(obj.hasOwnProperty(property)){
+                    //파라미터(인자)로 키와 값으로 호출되는 함수
+                    fn(property, obj[property]);
+                }
+            }
+        }
+
+        let object = {a:1, b:2, c:"한라봉"};
+        forEachObject(object,(k,v)=>console.log(`${k} : ${v}`));
+
+        console.log(object.hasOwnProperty("a"));
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

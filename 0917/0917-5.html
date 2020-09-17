@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const log = console.log;
+        const forEach = (arr, fn) => {
+            for (let i = 0; i < arr.length; i++) {
+                fn(arr[i]);
+            }
+        }
+        const forEachObject = (obj, fn) => {
+            for (const property in obj) {
+                if (obj.hasOwnProperty(property)) {
+                    //파라미터(인자)로 키와 값으로 호출되는 함수
+                    fn(property, obj[property]);
+                }
+            }
+        }
+
+        const unless = (predicate, fn) => {
+            if (!predicate) {
+                fn();
+            }
+        }
+
+        const times = (times, fn) => {
+            for (let i = 0; i < times; i++) {
+                fn(i);
+            }
+        }
+
+        const every = (arr,fn) =>{
+            let result = true;
+            for(const value of arr){
+                result = result && fn(value);
+            }
+            return result;
+        }
+        
+        const some = (arr,fn) =>{
+            let result = false;
+            for(const value of arr){
+                result = result || fn(value);
+
+            }
+            return result;
+        }
+
+        console.log(some([9,5,9,NaN],isNaN));
+        const sortBy = (property) => {
+            return (a,b) => {
+                var result = (a[property] < b[property]) ? -1:
+                (a[property]>b[property])? 1:0;
+                return result;
+            }
+        }
+        const tap = (value) => (fn) =>(
+            typeof(fn) === 'function' && fn(value),
+            log(value)
+            )
+        tap("fun")((it) => log("value is", it));
+
+        forEach([1,2,3],(a) =>
+        tap(a)(()=>{
+            log("foreach : ",a);
+        }))
+        
+        log([1,2,3].map(a => a*a))
+        //문자를 숫자로
+        log(['1','2','3'].map(parseInt))
+        //예측한결과 안나옴
+        // 하나의 데이터만 받을 수 있는 함수 사용함
+        // map을 이용하여 iteration 하면 그 이후 데이터는 index와 value
+        // 2개를 반환하므로
+        // 그 다음 iteration 하면 이전 '문자'를 숫자로 변환이 되지 않아서
+        // unary로 함수호출하고 그 결과를 사용함
+        
+        const unary = (fn) =>
+        fn.length === 1 ? fn : (arg) =>{
+            log(arg);
+            return fn(arg);
+            
+        } 
+        log(['1','2','3'].map(unary(parseInt)));
+        console.clear();
+        
+        const once = (fn) =>{
+            let done = false;
+            return function(){
+
+                return done ? undefined :
+                    ((done = true), fn.apply(this, arguments)),log(arguments)
+            }
+        }
+
+        let doPayment = once(() => {
+            log("지불함");
+        })
+
+        doPayment();
+        doPayment();
+        doPayment();
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

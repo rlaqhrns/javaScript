@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const forEach = (arr,fn)=>{
+            for(let i = 0 ; i<arr.length;i++){
+                fn(arr[i]);
+            }
+        }
+        const forEachObject = (obj, fn)=>{
+            for(const property in obj){
+                if(obj.hasOwnProperty(property)){
+                    //파라미터(인자)로 키와 값으로 호출되는 함수
+                    fn(property, obj[property]);
+                }
+            }
+        }
+
+       const unless = (predicate, fn) =>{
+           if(!predicate){
+               fn();
+           }
+       }
+       forEach([1,2,3,4,5,6,7],(number) => {
+           unless((number%2),()=>{
+               console.log(`${number} is 짝수`);
+          })
+       })
+       let result = () => (v) =>{
+           console.log(70,"짝수임");
+    }
+    let fn = (number) => (v) =>{
+        console.log(v,number,"짝수");
+        
+       }
+       fn(7)(8);
+       let add = () =>7;
+       console.log("여기가 정답", unless(false,add));
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
