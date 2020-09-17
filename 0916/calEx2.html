@@ -11,6 +11,8 @@
             this.operator = null;
             this.$value2 = null;
             this.$output = null;
+            this.init();
+            this.initEvent();
         }
         //계산기 내부에서 계속 사용할 노드를 미리 찾아서 변수에 담아준다
         Calculator.prototype.init = function(){
@@ -23,7 +25,7 @@
         //이벤트 초기화
         Calculator.prototype.initEvent = function(){
             var obThis = this;
-            $("#cal").click(function(){
+            $("#val").click(function(){
                 obThis.exeCalculate();//메소드 호출
             })
         }
@@ -48,6 +50,7 @@
                     result = "지원하지 않는 연산자입니다.";
             }
             //계산 정보를 출력 영역에 출력
+            console.log(result);
             this.$output.html(result);
         }
         //입력 정보를 구한 후 계산 메소드 호출
@@ -59,7 +62,7 @@
         }
         $(document).ready(function(){
             var cal1 = new Calculator();
-            cal1.initEvent();
+           
         })
     </script>
 </head>
