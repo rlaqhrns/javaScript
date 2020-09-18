@@ -1,140 +1,124 @@
-
 <!DOCTYPE HTML>
 <html>
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
 
     <style>
-        .tab-menu {
-            list-style: none;
-            height:80px;
-        }
-        .tab-menu li {
-            width:99px;
-            height:40px;
-            background-position-y:0;
-            text-indent: -1000px;
-            overflow: hidden;
-            display: inline-block;
-            float:left;
-        }
-        .tab-menu li:hover {
-            background-position-y: -40px;
-        }
-        .tab-menu li.select {
-            background-position-y: -80px;
-            height:80px;
-        }
-        .tab-menu li.menuitem1 {
-            background-image: url(../img/newbtn.bar.1.png);
-        }
-        .tab-menu li.menuitem2 {
-            background-image: url(../img/newbtn.bar.2.png);
-        }
-        .tab-menu li.menuitem3 {
-            background-image: url(../img/newbtn.bar.3.png);
-        }
-        .tab-menu li.menuitem4 {
-            background-image: url(../img/newbtn.bar.4.png);
-        }
-        .tab-menu li.menuitem5 {
-            background-image: url(../img/newbtn.bar.5.png);
-        }
-        .tab-menu li.menuitem6 {
-            background-image: url(../img/newbtn.bar.6.png);
+        body {
+            font-size: 9pt;
         }
 
+        div.image-container {
+            position: relative;
+            border: 1px solid #000;
+            height: 600px;
+        }
+
+        div.image-container img {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 120px;
+        }
     </style>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script>
-
         /*
-         미션: 캡슐화를 적용해 탭메뉴 만들기
+        미션: 클래스 상속을 활용한 기능 확장
+        기존 심플 갤러리의 경우 배열 버튼을 누르면 아무런 효과 없이 즉시 이미지가 자신의 위치로 이동하는 것을 확인할 수 있습니다.
+        기존 심플 갤러리를 확장해 이미지가 부드럽게 이동할 수 있게 만들어 주세요.
+        단, 여기서 주의해야 할 사항이 하나 있는데요.
+        절대 기존 심플 갤러리 클래스(Simple Gallery)를 수정하면 안 됩니다.
          */
 
+        $(document).ready(function () {
+            // 인스턴스 생성
+            var gallery1 = new SimpleAniGallery();
+            gallery1.init("#container1 img");
 
-
-        $(document).ready(function(){
-            // 첫 번째 탭메뉴 인스턴스 생성
-            var tab1 = new TabMenu("#tabMenu1");
-            tab1.setSelectItemAt(1);
-
-            // 두 번째 탭메뉴 인스턴스 생성
-            var tab2 = new TabMenu("#tabMenu2");
-            tab2.setSelectItemAt(2);
-
+            $("#btnStart").click(function () {
+                // 이미지 정렬
+                gallery1.showAni(3, 150, 150);
+            });
 
         });
 
-        function TabMenu(selector) {
-            this.$tabMenu = null;
-            this.$menuItems = null;
-            this.$selectMenuItem = null;
-
-            this.init(selector);
-            this.initEvent();
+        function SimpleGallery() {
+            // 프로퍼티 생성
+            this.$images = null;
         }
 
         // 요소 초기화
-        TabMenu.prototype.init=function(selelctor){
-
-            this.$tabMenu = $(selelctor);
-            this.$menuItems = this.$tabMenu.find("li");
+        SimpleGallery.prototype.init = function (selector) {
+            this.$images = $(selector);
         }
 
-        // 이벤트 등록
-        TabMenu.prototype.initEvent = function() {
-            var objThis = this;
-            this.$menuItems.on("click", function() {
-                objThis.setSelectItem($(this));
-            });
-        }
+        // 이미지 출력 메서드 추가
+        SimpleGallery.prototype.show = function (count, imageWidth, imageHeight) {
+            // 이미지 개수 구하기.
+            var length = this.$images.length;
 
-        // $menuItem에 해당하는 메뉴 아이템 선택하기
-        TabMenu.prototype.setSelectItem = function($menuItem) {
-            // 기존 선택메뉴 아이템을 비활성화 처리 하기
-            if (this.$selectMenuItem) {
-                this.$selectMenuItem.removeClass("select");
+            // 이미지 배열하기.
+            for (var i = 0; i < length; i++) {
+                // n번째 이미지 구하기
+                var $img = this.$images.eq(i);
+
+                // 위치 값 구하기
+                var x = 100 + ((i % count) * imageWidth);
+                var y = 100 + (parseInt(i / count) * imageHeight);
+
+                // 위치 설정
+                $img.css({
+                    left: x,
+                    top: y
+                });
             }
-
-            // 신규 아이템 활성화 처리 하기
-            this.$selectMenuItem = $menuItem;
-            this.$selectMenuItem.addClass("select");
         }
 
-        // $menuItem에 해당하는 메뉴 아이템 선택하기
-        TabMenu.prototype.setSelectItemAt = function(index) {
-            var $menuItem = this.$menuItems.eq(index);
+        function SimpleAniGallery() {//자식 클래스
 
-            // 기존 메서드 재사용
-            this.setSelectItem($menuItem);
         }
+        //기존 샘플 갤러리 상속
+        SimpleAniGallery.prototype = new SimpleGallery();
+        //이미지 출력 메서드 추가
+        SimpleGallery.prototype.showAni = function (count, imageWidth, imageHeight) {
+            //이미지 개수 구하기
+            var length = this.$images.length;
+            // 이미지 배열하기.
+            for (var i = 0; i < length; i++) {
+                // n번째 이미지 구하기
+                var $img = this.$images.eq(i);
 
+                // 위치 값 구하기
+                var x = 100 + ((i % count) * imageWidth);
+                var y = 100 + (parseInt(i / count) * imageHeight);
 
-
+                // 위치 설정
+                $img.animate({
+                    left: x,
+                    top: y
+                }, 1000);
+            }
+        }
     </script>
 </head>
 
 <body>
-<p>첫 번째 탭메뉴</p>
-<ul class="tab-menu" id="tabMenu1">
-    <li class="menuitem1">google</li>
-    <li class="menuitem2">facebook</li>
-    <li class="menuitem3">pinterest</li>
-    <li class="menuitem4">twitter</li>
-    <li class="menuitem5">airbnb</li>
-    <li class="menuitem6">path</li>
-</ul>
-<p>두 번째 탭메뉴</p>
-<ul class="tab-menu" id="tabMenu2">
-    <li class="menuitem1">google</li>
-    <li class="menuitem2">facebook</li>
-    <li class="menuitem3">pinterest</li>
-    <li class="menuitem4">twitter</li>
-    <li class="menuitem5">airbnb</li>
-    <li class="menuitem6">path</li>
-</ul>
+    <button id="btnStart">이미지 정렬하기</button>
+    <div class="image-container" id="container1">
+        <img src="../img/banners/1.png">
+        <img src="../img/banners/2.png">
+        <img src="../img/banners/3.png">
+        <img src="../img/banners/4.png">
+        <img src="../img/banners/5.png">
+        <img src="../img/banners/6.png">
+        <img src="../img/banners/7.png">
+        <img src="../img/banners/8.png">
+    </div>
 </body>
+
 </html>

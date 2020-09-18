@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    <style>
+        .tab-menu {
+            list-style: none;
+            height: 80px;
+        }
+
+        .tab-menu li {
+            width: 99px;
+            height: 40px;
+            background-position-y: 0;
+            text-indent: -1000px;
+            overflow: hidden;
+            display: inline-block;
+            float: left;
+        }
+
+        .tab-menu li:hover {
+            background-position-y: -40px;
+        }
+
+        .tab-menu li.select {
+            background-position-y: -80px;
+            height: 80px;
+        }
+
+        .tab-menu li.menuitem1 {
+            background-image: url(img/newbtn.bar.1.png);
+        }
+
+        .tab-menu li.menuitem2 {
+            background-image: url(img/newbtn.bar.2.png);
+        }
+
+        .tab-menu li.menuitem3 {
+            background-image: url(img/newbtn.bar.3.png);
+        }
+
+        .tab-menu li.menuitem4 {
+            background-image: url(img/newbtn.bar.4.png);
+        }
+
+        .tab-menu li.menuitem5 {
+            background-image: url(img/newbtn.bar.5.png);
+        }
+
+        .tab-menu li.menuitem6 {
+            background-image: url(img/newbtn.bar.6.png);
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script>
+
+      
+        $(document).ready(function () {
+            menuAddBtn();
+        });
+        let menuAddBtn = function () {
+			var creatMenu=0;
+            $("#btnAdd").click(function () {
+                var tab = [];
+                let menu = `<ul class="tab-menu" id="tabMenu${++creatMenu}">
+					<li class="menuitem1">google</li>
+					<li class="menuitem2">facebook</li>
+					<li class="menuitem3">pinterest</li>
+					<li class="menuitem4">twitter</li>
+					<li class="menuitem5">airbnb</li>
+					<li class="menuitem6">path</li>
+				</ul>`;
+
+                $("#menuPlace").append(menu);
+                tab.push(new TabMenu("#tabMenu" + (creatMenu)));
+            })
+        }
+        function TabMenu(selector) {
+            console.log("selecter :" + selector);
+            this.$tabMenu = null;
+            this.$menuItems = null;
+            this.$selectMenuItem = null;
+            // 요소 초기화및 이벤트 등록 호출하기
+			this.creatBtn(selector.slice(-1));
+            this.init(selector);
+            this.initEvent();
+            this.menuButtonEvent(selector.slice(-1));
+        }
+        //버튼생성
+        TabMenu.prototype.creatBtn = function (cnt) {
+			console.log("생성 버튼",cnt);
+            let obj = this;
+            let btnInput = `<button id="btnSelect${cnt}">인덱스로 메뉴 아이템 선택하기</button>`;
+
+            $("div#btnPlace").append(btnInput);
+        }
+        //생성된메뉴버튼 이벤트
+        TabMenu.prototype.menuButtonEvent = function (cnt) {
+            let obj = this;
+			console.log("menuButtonEvent" , cnt);
+            $("#btnSelect" + cnt).click(function () {
+                var index = window.prompt("선택할 아이템의 인덱스 값을 입력하세요");
+                index = parseInt(index);
+                obj.setSelectItemAt(index);
+
+            })
+
+        }
+
+        // 요소 초기화
+        TabMenu.prototype.init = function (selector) {
+            console.log("selecter :" + selector);
+            this.$tabMenu = $(selector);
+            this.$menuItems = this.$tabMenu.find("li");
+            console.log(this);
+        }
+
+        // 이벤트 등록
+        TabMenu.prototype.initEvent = function () {
+            var objThis = this;
+            this.$menuItems.on("click", function () {
+                console.log("밑에가 버튼 디스");
+                console.log(this);
+                objThis.setSelectItem($(this));
+            });
+        }
+
+        // $menuItem에 해당하는 메뉴 아이템 선택하기
+        TabMenu.prototype.setSelectItem = function ($menuItem) {
+            // 기존 선택메뉴 아이템을 비활성화 처리 하기
+            if (this.$selectMenuItem) {
+                this.$selectMenuItem.removeClass("select");
+            }
+
+            // 신규 아이템 활성화 처리 하기
+            this.$selectMenuItem = $menuItem;
+            this.$selectMenuItem.addClass("select");
+        }
+        TabMenu.prototype.setSelectItemAt = function (index) {
+            var $menuItem = this.$menuItems.eq(index);
+            if (this.$selectMenuItem) {
+                this.$selectMenuItem.removeClass("select");
+            }
+            this.$selectMenuItem = $menuItem;
+            this.$selectMenuItem.addClass("select");
+        }
+
+
+
+    </script>
+</head>
+
+<body>
+    <div id="btnPlace">
+        <button id="btnAdd">버튼 추가</button>
+
+    </div>
+    <div id="menuPlace">
+
+    </div>
+
+
+
+</body>
+
+</html>
