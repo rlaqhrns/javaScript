@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+            margin: 0px 0px 0px 0px;
+            overflow: hidden;
+            padding: 0px 0px 0px 0px;
+            width: 100%;
+        }
+
+        img {
+            border: 1px solid #000000;
+            cursor: pointer;
+            height: 100px;
+            overflow: hidden;
+            position: fixed;
+            width: 100px;
+        }
+
+        img.initial {
+            left: 50%;
+            margin: -51px 0px 0px -51px;
+            top: 50%;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script>
+        $(document).ready(function () {
+
+
+            // 테스트 이미지 노드 구함 
+            var image = $("img");
+
+            //이미지의 폭 크기 구함 
+            var imageWidth = image.outerWidth();
+            var imageHeight = image.outerHeight();
+
+            // 화면(창) 크기 구함 
+            var windowWidth = $(window).width();
+            var windowHeight = $(window).height();
+
+            // Get the min and max positions.
+            var minLeft = 0;
+            var maxLeft = (windowWidth - imageWidth);
+            var minTop = 0;
+            var maxTop = (windowHeight - imageHeight);
+
+            // 최대 속도 설정
+            var maxSpeed = 5;
+
+
+            //마우스의 이동을 정의한 함수 
+            // 이미지에 마우스가 눌리면 이 콜백 함수 호출됨
+            var onMouseMove = function (event) {
+                // 마우스 offset 구함 
+                //mouse down 이벤트시 저장된 literal 객체의 key값으로 가져옴 
+                var mouseOffset = image.data("mouseOffset");
+
+                // Calculate the position of the image baesd on
+                // the mouse position and the mouse offset.
+                var position = {
+                    left: (event.pageX - mouseOffset.left),
+                    top: (event.pageY - mouseOffset.top)
+                };
+
+                // 이미지가 스크린의 좌측과 상단경계에 있는지 확인함 
+                position.left = Math.max(position.left, minLeft);
+                position.top = Math.max(position.top, minTop);
+
+
+
+                // 이미지 위치 업데이트 
+                image.css({
+                    left: (position.left + "px"),
+                    top: (position.top + "px")
+                });
+
+                //mouse down 이벤트시 저장된 literal 객체의 key(mouseEvents)으로 가져옴 
+                var mouseEvents = image.data("mouseEvents");
+
+                // 배열에 마우스 이벤트 추가 
+                mouseEvents.push(event);
+
+
+            };
+
+
+            // 마우스가 떨어지면 호출되는 callback함수 정의 
+            var onMouseUp = function (event) {
+                // 마우스이벤트 등록 해제 
+                $(document).unbind("mousemove mouseup");
+
+                // 마지막 저장된 마우스 이벤트 꺼내서 저장하고 
+                var lastEvent = image.data("mouseEvents").shift();
+
+                if (!lastEvent) {
+                    return;
+                }
+
+                var deltaX = (event.pageX - lastEvent.pageX);
+                var deltaY = (event.pageY - lastEvent.pageY);
+
+                var deltaMS = Math.max(
+                    (event.timeStamp - lastEvent.timeStamp),
+                    1
+                );
+
+                //X 방향으로의 속도 구함 => 속도= 거리/시간
+                var speedX = Math.max(
+                    Math.min((deltaX / deltaMS), maxSpeed)
+                );
+
+                //Y 방향으로의 속도 구함 => 속도= 거리/시간
+                var speedY = Math.max(
+                    Math.min((deltaY / deltaMS), maxSpeed)
+                );
+
+
+                image.css("text-indent", 100);
+
+                image.animate(
+                    {
+                        textIndent: 0
+                    },
+                    {
+                        //x방향과  y방향의 속도의 절대값중 더 큰 것을 반영함 
+                        duration: (
+                            Math.max(
+                                Math.abs(speedX),
+                                Math.abs(speedY)
+                            ) * 3000
+                        ),
+                        step: function (currentStep) {
+
+                            speedX *= (currentStep / 100); //step 콜백이 호출될때마다 이전 speedX의 값에 계속 누적하여 곱함
+                            speedY *= (currentStep / 100);
+
+                            // 이미지의 위치 구함 
+                            var position = image.position();
+
+                            // 이미지의 왼쪽 위치 갱신
+                            var newLeft = (position.left + (speedX * 50));
+
+                            // 이미지의 상단  위치 갱신
+                            var newTop = (position.top + (speedY * 70));
+
+                            // 경계를 벗어나지 않기 위해 데이터 갱신 및 속도를 반대방향으로 - 곱합
+                            //좌
+                            // Min left.
+                            if (newLeft < minLeft) { //설정해 놓은(minLeft) 화면 좌측을 만나면(작으면) 값을 초기값(minLeft)으로 갱신함
+                                newLeft = minLeft;
+                                speedX *= -1; //속도의 뱡향을 변경함 
+                            }
+
+                            // Min top.
+                            if (newTop < minTop) { //설정해 놓은(minTop) 화면 상단을 만나면(작으면) 값을 초기값(minTop)으로 갱신함
+                                newTop = minTop;
+                                speedY *= -1;
+                            }
+
+                            // Max left.
+                            if (newLeft > maxLeft) {//설정해 놓은(maxLeft) 화면 우측을 만나면(크면) 값을 초기값(maxLeft)으로 갱신함
+                                newLeft = maxLeft;
+                                speedX *= -1;
+                            }
+
+                            // Max top.
+                            if (newTop > maxTop) {//설정해 놓은(maxTop) 화면 하단을 만나면(크면) 값을 초기값(maxTop)으로 갱신함
+                                newTop = maxTop;
+                                speedY *= -1;
+                            }
+
+                            // 이미지의 위치 갱신 
+                            image.css({
+                                left: (newLeft + "px"),
+                                top: (newTop + "px")
+                            });
+                        }
+                    }
+                );
+
+            };
+
+
+            // mouse down 이벤트 등록
+            image.mousedown(
+                function (event) {
+
+                    // Prevent the default action.
+                    event.preventDefault();
+
+                    // 이미지가 초기 상태에 있는지 확인
+                    if (image.is(".initial")) {
+
+                        //이미지 현재 위치 얻어옴
+                        var position = image.position();
+
+                        // initial class 제거 
+                        image.removeClass("initial");
+
+                        // 이미지의 위치를 51px 여유를 둠 
+                        image.css({
+                            left: ((position.left - 51) + "px"),
+                            top: ((position.top - 51) + "px")
+                        });
+
+                    }
+
+                    // 에니메이션 중지
+                    image.stop();
+
+                    // 이미지의 현재 위치 얻어옴
+                    var position = image.position();
+
+
+                    //이미지내의 마우스 이벤트 좌표의 상대 위치구함
+                    var mouseOffset = {
+                        left: (event.pageX - position.left + 1),
+                        top: (event.pageY - position.top + 1)
+                    };
+
+                    // 위에 담겨 있는 mouseOffset 객체를 data의 key와 value로 저장하고 onMouseMove에서 key값으로 꺼내 사용함 
+                    image.data("mouseOffset", mouseOffset);
+
+                    // 마우스 클릭이 해제되면 mouseUp 이벤트의 변화를 파악할 수 있도록 현재 마우스 이벤트를 저장후 
+                    //onMouseMove에서 key값("mouseEvents")으로 꺼내 사용함 
+
+                    image.data("mouseEvents", [event]);
+
+                    // 마우스 움직임이 발생하면 호출되도록 이벤트 등록하고
+                    //이때 호출되는 핸들러는 위에서 정의한 onMouseMove 함수가 호출됨 
+                    $(document).mousemove(onMouseMove);
+
+                    // 마우스를 때면 발생하는 이벤트 등록
+                    //이때 호출되는 이벤트 핸들러(함수) 는 위에서 정의한 onMouseUp 함수 호출됨 
+                    $(document).mouseup(onMouseUp);
+                }
+            );
+
+        })
+    </script>
+</head>
+
+<body>
+
+    <img src="../img/newBook.png" class="initial" />
+
+</body>
+
+</html>
