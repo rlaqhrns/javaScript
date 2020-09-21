@@ -38,18 +38,18 @@
             var image = $("img");
 
             //이미지의 폭 크기 구함 
-            var imageWidth = image.outerWidth();
-            var imageHeight = image.outerHeight();
+            var imageWidth = image.outerWidth(); //이미지 가로의 길이
+            var imageHeight = image.outerHeight();//이미지 세로의 길이
 
             // 화면(창) 크기 구함 
-            var windowWidth = $(window).width();
-            var windowHeight = $(window).height();
+            var windowWidth = $(window).width();//화면 가로의 길이
+            var windowHeight = $(window).height();//화면 세로의 길이
 
             // Get the min and max positions.
-            var minLeft = 0;
-            var maxLeft = (windowWidth - imageWidth);
-            var minTop = 0;
-            var maxTop = (windowHeight - imageHeight);
+            var minLeft = 0; //최소 왼쪽값
+            var maxLeft = (windowWidth - imageWidth); //이미지가 최대한 오른쪽으로 갈 수 있는 위치
+            var minTop = 0; //최소 상단값
+            var maxTop = (windowHeight - imageHeight);//이미지가 최대한 아래쪽으로 갈 수 있는 위치
 
             // 최대 속도 설정
             var maxSpeed = 5;
@@ -68,11 +68,18 @@
                     left: (event.pageX - mouseOffset.left),
                     top: (event.pageY - mouseOffset.top)
                 };
+                console.log("position");
+                console.log("left: ",position.left);
+                console.log("top: ",position.top);
 
                 // 이미지가 스크린의 좌측과 상단경계에 있는지 확인함 
-                position.left = Math.max(position.left, minLeft);
+                //minLeft 와 position.letf를 비교해서 큰 값을 position.left에 대입한다
+                position.left = Math.max(position.left, minLeft); 
+                //minTop 와 position.Top를 비교해서 큰 값을 position.left에 대입한다
                 position.top = Math.max(position.top, minTop);
 
+                console.log("left max: ",position.left);
+                console.log("top max: ",position.top);
 
 
                 // 이미지 위치 업데이트 
@@ -94,14 +101,16 @@
             // 마우스가 떨어지면 호출되는 callback함수 정의 
             var onMouseUp = function (event) {
                 // 마우스이벤트 등록 해제 
+                // 마우스 업 이벤트를 해제를 하지 않으면 마우스를 눌렀다 떼고나서 계속 이벤트가 발생하여 버그발생
+                // 밑의 코드로 이벤트가 1회만 발동하도록 한다.
                 $(document).unbind("mousemove mouseup");
 
                 // 마지막 저장된 마우스 이벤트 꺼내서 저장하고 
                 var lastEvent = image.data("mouseEvents").shift();
-
                 if (!lastEvent) {
                     return;
                 }
+                
 
                 var deltaX = (event.pageX - lastEvent.pageX);
                 var deltaY = (event.pageY - lastEvent.pageY);
@@ -126,24 +135,25 @@
 
                 image.animate(
                     {
-                        textIndent: 0
+                        textIndent: 0 //들여쓰기를 없애준다
                     },
                     {
                         //x방향과  y방향의 속도의 절대값중 더 큰 것을 반영함 
+                        //duration : 한 사이클을 완료하는데 걸리는 시간
                         duration: (
                             Math.max(
                                 Math.abs(speedX),
                                 Math.abs(speedY)
                             ) * 3000
                         ),
-                        step: function (currentStep) {
-
+                        step: function (currentStep) { //요소가 움직일때 마다 step함수가 호출된다.
+                            console.log("currentStep : ",currentStep);
                             speedX *= (currentStep / 100); //step 콜백이 호출될때마다 이전 speedX의 값에 계속 누적하여 곱함
                             speedY *= (currentStep / 100);
 
                             // 이미지의 위치 구함 
                             var position = image.position();
-
+                            console.log("position : ",position);
                             // 이미지의 왼쪽 위치 갱신
                             var newLeft = (position.left + (speedX * 50));
 
@@ -192,7 +202,7 @@
             image.mousedown(
                 function (event) {
 
-                    // Prevent the default action.
+                    // 현재 이벤트의 기본 동작을 중지한다.
                     event.preventDefault();
 
                     // 이미지가 초기 상태에 있는지 확인
