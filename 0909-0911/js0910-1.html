@@ -7,7 +7,8 @@
   <body>
     <script>
     const log = console.log;
-    //커링 구글링
+    //커링 구글링해보기 
+
     const curry = f =>
         (a,..._) => _.length ? f(a,..._) : (..._) => f(a,..._);
     const products = [
