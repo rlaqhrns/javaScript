@@ -14,7 +14,7 @@
 			width:400px;			
 			height:200px;
 			
-			overflow:hidden;;
+			overflow:hidden;
 			border:2px solid #000;
 		}
 		
@@ -62,7 +62,7 @@
             let objThis = this;
             //타이머가 두 번이상 실행되지 않게 조건 처리
             if(this._timerId==-1){
-                this._timerID = setInterval(function(){
+                this._timerId = setInterval(function(){
                     objThis.nextBanner();
                 },2000)
             }
@@ -102,7 +102,7 @@
                 top:-200,
                 opacity:0
             },{
-                duration:500,
+                duration:600,
                 step:function(current){
                     console.log(current);
                 }
